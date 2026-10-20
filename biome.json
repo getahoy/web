@@ -27,7 +27,13 @@
         "noExplicitAny": "error"
       },
       "style": {
-        "noNonNullAssertion": "error"
+        "noNonNullAssertion": "error",
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["camelCase"]
+          }
+        }
       },
       "complexity": {
         "noExcessiveLinesPerFunction": {
