@@ -1,0 +1,25 @@
+@theme {
+  --color-*: initial;
+  --color-surface: Canvas;
+  --color-text: CanvasText;
+  --color-muted: GrayText;
+  --color-border: GrayText;
+  --color-accent: LinkText;
+  --color-danger: oklch(55% 0.2 25);
+
+  --font-*: initial;
+  --font-sans: system-ui, sans-serif;
+
+  --text-*: initial;
+  --text-small: 0.875rem;
+  --text-body: 1rem;
+  --text-title: 1.5rem;
+
+  --radius-*: initial;
+  --radius-control: 0.25rem;
+
+  --shadow-*: initial;
+
+  --spacing: 0.25rem;
+  --container-form: 24rem;
+}
