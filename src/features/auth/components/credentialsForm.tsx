@@ -1,3 +1,6 @@
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import type { CredentialField } from "../forms/credentialFields";
 import { FormError } from "./formError";
 
@@ -19,26 +22,22 @@ export function CredentialsForm({
   return (
     <form action={onSubmit} aria-busy={pending} className="flex flex-col gap-4">
       {fields.map((field) => (
-        <label key={field.name} className="flex flex-col gap-1">
-          <span className="text-small">{field.label}</span>
-          <input
+        <div key={field.name} className="flex flex-col gap-2">
+          <Label htmlFor={field.name}>{field.label}</Label>
+          <Input
+            id={field.name}
             name={field.name}
             type={field.type}
             autoComplete={field.autoComplete}
             required
             disabled={pending}
-            className="rounded-control border border-border p-2"
           />
-        </label>
+        </div>
       ))}
       <FormError message={errorMessage} />
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-control border border-border p-2"
-      >
+      <Button type="submit" disabled={pending}>
         {pending ? "Please wait…" : submitLabel}
-      </button>
+      </Button>
     </form>
   );
 }

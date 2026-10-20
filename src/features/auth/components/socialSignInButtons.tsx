@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   type SocialProviderId,
   socialProviderCatalog,
@@ -22,15 +23,15 @@ export function SocialSignInButtons({
   return (
     <div className="flex flex-col gap-2">
       {providers.map((provider) => (
-        <button
+        <Button
           key={provider.id}
           type="button"
+          variant="outline"
           disabled={pending}
           onClick={() => onSelect(provider.id)}
-          className="rounded-control border border-border p-2"
         >
           {provider.label}
-        </button>
+        </Button>
       ))}
     </div>
   );

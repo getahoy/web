@@ -33,7 +33,10 @@ export function SignInScreen({ socialProviderIds }: SignInScreenProps) {
         pending={pending}
         onSelect={social.signInWith}
       />
-      <Link href={SIGN_UP_PATH} className="text-accent">
+      <Link
+        href={SIGN_UP_PATH}
+        className="text-primary text-sm underline-offset-4 hover:underline"
+      >
         Create an account
       </Link>
     </AuthScreenLayout>

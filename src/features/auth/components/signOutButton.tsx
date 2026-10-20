@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { useSignOut } from "../hooks/useSignOut";
 import { FormError } from "./formError";
 
@@ -8,14 +9,14 @@ export function SignOutButton() {
 
   return (
     <div className="flex flex-col gap-2">
-      <button
+      <Button
         type="button"
+        variant="outline"
         onClick={signOut}
         disabled={pending}
-        className="rounded-control border border-border p-2"
       >
         {pending ? "Signing out…" : "Sign out"}
-      </button>
+      </Button>
       <FormError message={errorMessage} />
     </div>
   );

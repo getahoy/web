@@ -7,7 +7,7 @@ export function FormError({ message }: FormErrorProps) {
     <p
       role="alert"
       aria-live="polite"
-      className="min-h-6 text-small text-danger"
+      className="min-h-5 text-destructive text-sm"
     >
       {message}
     </p>
