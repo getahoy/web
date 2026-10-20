@@ -15,5 +15,6 @@ export const auth = betterAuth({
     minPasswordLength: MINIMUM_PASSWORD_LENGTH,
   },
   socialProviders,
+  rateLimit: { storage: "database" },
   plugins: [nextCookies()],
 });
