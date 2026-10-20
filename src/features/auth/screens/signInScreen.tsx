@@ -7,9 +7,14 @@ import { SocialSignInButtons } from "../components/socialSignInButtons";
 import { signInFields } from "../forms/credentialFields";
 import { useCredentialsSignIn } from "../hooks/useCredentialsSignIn";
 import { useSocialSignIn } from "../hooks/useSocialSignIn";
+import type { SocialProviderId } from "../providers/catalog";
 import { SIGN_UP_PATH } from "../routes";
 
-export function SignInScreen() {
+type SignInScreenProps = {
+  socialProviderIds: readonly SocialProviderId[];
+};
+
+export function SignInScreen({ socialProviderIds }: SignInScreenProps) {
   const credentials = useCredentialsSignIn();
   const social = useSocialSignIn();
   const pending = credentials.pending || social.pending;
@@ -23,7 +28,11 @@ export function SignInScreen() {
         errorMessage={credentials.errorMessage ?? social.errorMessage}
         onSubmit={credentials.signIn}
       />
-      <SocialSignInButtons pending={pending} onSelect={social.signInWith} />
+      <SocialSignInButtons
+        providerIds={socialProviderIds}
+        pending={pending}
+        onSelect={social.signInWith}
+      />
       <Link href={SIGN_UP_PATH} className="text-accent">
         Create an account
       </Link>
