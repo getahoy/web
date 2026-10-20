@@ -1,3 +1,4 @@
+import { expo } from "@better-auth/expo";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
@@ -6,6 +7,8 @@ import * as schema from "@/db/schema";
 import { serverEnv } from "@/env/serverEnv";
 import { MINIMUM_PASSWORD_LENGTH } from "../forms/credentialsSchema";
 import { socialProviders } from "./socialProviders";
+
+const MOBILE_APP_ORIGIN = "ahoy://";
 
 export const auth = betterAuth({
   baseURL: serverEnv.BETTER_AUTH_URL,
@@ -17,5 +20,6 @@ export const auth = betterAuth({
   },
   socialProviders,
   rateLimit: { storage: "database" },
-  plugins: [nextCookies()],
+  trustedOrigins: [MOBILE_APP_ORIGIN],
+  plugins: [expo(), nextCookies()],
 });
