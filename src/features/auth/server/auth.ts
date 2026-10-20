@@ -4,7 +4,7 @@ import { nextCookies } from "better-auth/next-js";
 import { database } from "@/db/client";
 import { serverEnv } from "@/env/serverEnv";
 import { MINIMUM_PASSWORD_LENGTH } from "../forms/credentialsSchema";
-import { googleProvider } from "../providers/google";
+import { socialProviders } from "./socialProviders";
 
 export const auth = betterAuth({
   baseURL: serverEnv.BETTER_AUTH_URL,
@@ -14,8 +14,6 @@ export const auth = betterAuth({
     enabled: true,
     minPasswordLength: MINIMUM_PASSWORD_LENGTH,
   },
-  socialProviders: {
-    ...googleProvider(serverEnv),
-  },
+  socialProviders,
   plugins: [nextCookies()],
 });
