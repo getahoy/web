@@ -1,5 +1,5 @@
+import { signInSchema, signUpSchema } from "@getahoy/lib";
 import { describe, expect, it } from "vitest";
-import { signInSchema, signUpSchema } from "./credentialsSchema";
 import { parseForm } from "./parseForm";
 
 function formDataOf(entries: Record<string, string>): FormData {

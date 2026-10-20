@@ -1,5 +1,6 @@
 "use client";
 
+import type { SocialProviderId } from "@getahoy/lib";
 import Link from "next/link";
 import { AuthScreenLayout } from "../components/authScreenLayout";
 import { CredentialsForm } from "../components/credentialsForm";
@@ -7,7 +8,6 @@ import { SocialSignInButtons } from "../components/socialSignInButtons";
 import { signInFields } from "../forms/credentialFields";
 import { useCredentialsSignIn } from "../hooks/useCredentialsSignIn";
 import { useSocialSignIn } from "../hooks/useSocialSignIn";
-import type { SocialProviderId } from "../providers/catalog";
 import { SIGN_UP_PATH } from "../routes";
 
 type SignInScreenProps = {

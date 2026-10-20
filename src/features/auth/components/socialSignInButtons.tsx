@@ -1,8 +1,5 @@
+import { type SocialProviderId, socialProviderCatalog } from "@getahoy/lib";
 import { Button } from "@/components/ui/button";
-import {
-  type SocialProviderId,
-  socialProviderCatalog,
-} from "../providers/catalog";
 
 type SocialSignInButtonsProps = {
   providerIds: readonly SocialProviderId[];

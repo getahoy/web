@@ -1,15 +1,9 @@
+import { type SocialProviderId, useAuthRequest } from "@getahoy/lib";
 import { authClient } from "../client/authClient";
-import type { SocialProviderId } from "../providers/catalog";
 import { ACCOUNT_PATH } from "../routes";
-import { useAuthRequest } from "./useAuthRequest";
-
-const SOCIAL_SIGN_IN_FAILED =
-  "Could not continue with that provider. Try again.";
 
 export function useSocialSignIn() {
-  const { pending, errorMessage, submit } = useAuthRequest(
-    SOCIAL_SIGN_IN_FAILED,
-  );
+  const { pending, errorMessage, submit } = useAuthRequest();
 
   const signInWith = (provider: SocialProviderId) =>
     submit(() =>

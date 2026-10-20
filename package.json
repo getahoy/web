@@ -17,6 +17,7 @@
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@better-auth/expo": "1.7.11",
+    "@getahoy/lib": "file:../shared/packages/lib",
     "@neondatabase/serverless": "1.2.0",
     "better-auth": "1.7.11",
     "class-variance-authority": "^0.7.1",
