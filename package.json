@@ -6,8 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "biome check",
-    "format": "biome format --write"
+    "lint": "biome ci --error-on-warnings .",
+    "format": "biome format --write",
+    "typecheck": "next typegen && tsc --noEmit",
+    "prepare": "git config core.hooksPath .githooks || true"
   },
   "dependencies": {
     "next": "16.4.2",
