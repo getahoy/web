@@ -1,5 +1,5 @@
-import type { CredentialField } from "../forms/credential-fields";
-import { FormError } from "./form-error";
+import type { CredentialField } from "../forms/credentialFields";
+import { FormError } from "./formError";
 
 type CredentialsFormProps = {
   fields: readonly CredentialField[];

@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import { AccountSummary } from "../components/account-summary";
-import { SignOutButton } from "../components/sign-out-button";
+import { AccountSummary } from "../components/accountSummary";
+import { SignOutButton } from "../components/signOutButton";
 import { SIGN_IN_PATH } from "../routes";
-import { getCurrentSession } from "../server/get-current-session";
+import { getCurrentSession } from "../server/getCurrentSession";
 
 export async function AccountDetails() {
   const session = await getCurrentSession();

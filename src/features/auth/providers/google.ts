@@ -1,5 +1,5 @@
 import type { BetterAuthOptions } from "better-auth";
-import type { ServerEnv } from "@/env/server-env";
+import type { ServerEnv } from "@/env/serverEnv";
 
 export function googleProvider(env: ServerEnv) {
   return {

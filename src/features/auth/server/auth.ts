@@ -2,8 +2,8 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { database } from "@/db/client";
-import { serverEnv } from "@/env/server-env";
-import { MINIMUM_PASSWORD_LENGTH } from "../forms/credentials-schema";
+import { serverEnv } from "@/env/serverEnv";
+import { MINIMUM_PASSWORD_LENGTH } from "../forms/credentialsSchema";
 import { googleProvider } from "../providers/google";
 
 export const auth = betterAuth({

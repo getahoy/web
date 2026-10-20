@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { signInSchema, signUpSchema } from "./credentials-schema";
-import { parseForm } from "./parse-form";
+import { signInSchema, signUpSchema } from "./credentialsSchema";
+import { parseForm } from "./parseForm";
 
 function formDataOf(entries: Record<string, string>): FormData {
   const formData = new FormData();
