@@ -1,5 +1,5 @@
+import { socialErrorMessage } from "@getahoy/lib";
 import { useSearchParams } from "next/navigation";
-import { socialErrorMessage } from "../errors/socialErrorMessage";
 import { FormError } from "./formError";
 
 export function SocialSignInError() {

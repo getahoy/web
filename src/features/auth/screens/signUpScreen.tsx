@@ -1,10 +1,8 @@
 "use client";
 
+import { authCopy, type SocialProviderId, signUpSchema } from "@getahoy/lib";
 import { authClient } from "../client/authClient";
-import { authCopy } from "../copy/authCopy";
 import { signUpFields } from "../forms/credentialFields";
-import { signUpSchema } from "../forms/credentialsSchema";
-import type { SocialProviderId } from "../providers/socialProviderCatalog";
 import { SIGN_IN_PATH } from "../routes";
 import { CredentialsScreen } from "./credentialsScreen";
 

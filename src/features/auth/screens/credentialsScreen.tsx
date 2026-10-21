@@ -1,3 +1,8 @@
+import {
+  type AuthResponse,
+  type SocialProviderId,
+  useCredentialsForm,
+} from "@getahoy/lib";
 import Link from "next/link";
 import { Suspense } from "react";
 import type { z } from "zod";
@@ -7,10 +12,7 @@ import { SocialSignInButtons } from "../components/socialSignInButtons";
 import { SocialSignInError } from "../components/socialSignInError";
 import type { CredentialField } from "../forms/credentialFields";
 import { useAuthNavigation } from "../hooks/useAuthNavigation";
-import type { AuthResponse } from "../hooks/useAuthRequest";
-import { useCredentialsForm } from "../hooks/useCredentialsForm";
 import { useSocialSignIn } from "../hooks/useSocialSignIn";
-import type { SocialProviderId } from "../providers/socialProviderCatalog";
 
 type CredentialsScreenProps<Input extends Record<string, string>> = {
   title: string;

@@ -1,7 +1,7 @@
 "use client";
 
+import { authCopy } from "@getahoy/lib";
 import { Button } from "@/components/ui/button";
-import { authCopy } from "../copy/authCopy";
 import { useAuthNavigation } from "../hooks/useAuthNavigation";
 import { useSignOut } from "../hooks/useSignOut";
 import { FormError } from "./formError";

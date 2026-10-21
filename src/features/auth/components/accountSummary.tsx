@@ -1,4 +1,4 @@
-import { authCopy } from "../copy/authCopy";
+import { authCopy } from "@getahoy/lib";
 
 type AccountSummaryProps = {
   name: string;
