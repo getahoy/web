@@ -7,7 +7,6 @@ export const authCopy = {
   "signUp.switch": "I already have an account",
   "account.title": "Your account",
   "account.loading": "Loading your account…",
-  "session.loading": "Checking your session",
   "signOut.submit": "Sign out",
   "signOut.pending": "Signing out…",
   "form.pending": "Please wait…",
@@ -23,16 +22,3 @@ export const authCopy = {
   "error.conflict": "An account with this email already exists.",
   "error.forbidden": "Verify your email before signing in.",
 } as const;
-
-export type AuthCopyKey = keyof typeof authCopy;
-
-export function formatCopy(
-  key: AuthCopyKey,
-  params: Record<string, string | number>,
-): string {
-  return Object.entries(params).reduce<string>(
-    (text, [name, replacement]) =>
-      text.replace(`{${name}}`, String(replacement)),
-    authCopy[key],
-  );
-}
