@@ -1,40 +1,46 @@
-export type CredentialField = {
-  name: "name" | "email" | "password";
+import {
+  authCopy,
+  type SignInFieldName,
+  type SignUpFieldName,
+} from "@getahoy/auth";
+
+export type CredentialField<Name extends string> = {
+  name: Name;
   label: string;
   type: "text" | "email" | "password";
   autoComplete: "name" | "email" | "current-password" | "new-password";
 };
 
-const nameField: CredentialField = {
+const nameField: CredentialField<"name"> = {
   name: "name",
-  label: "Name",
+  label: authCopy["field.name"],
   type: "text",
   autoComplete: "name",
 };
 
-const emailField: CredentialField = {
+const emailField: CredentialField<"email"> = {
   name: "email",
-  label: "Email",
+  label: authCopy["field.email"],
   type: "email",
   autoComplete: "email",
 };
 
-export const signInFields: readonly CredentialField[] = [
+export const signInFields: readonly CredentialField<SignInFieldName>[] = [
   emailField,
   {
     name: "password",
-    label: "Password",
+    label: authCopy["field.password"],
     type: "password",
     autoComplete: "current-password",
   },
 ];
 
-export const signUpFields: readonly CredentialField[] = [
+export const signUpFields: readonly CredentialField<SignUpFieldName>[] = [
   nameField,
   emailField,
   {
     name: "password",
-    label: "Password",
+    label: authCopy["field.password"],
     type: "password",
     autoComplete: "new-password",
   },

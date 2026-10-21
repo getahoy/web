@@ -1,12 +1,17 @@
 "use client";
 
-import type { SocialProviderId } from "@getahoy/lib";
+import {
+  authCopy,
+  type SocialProviderId,
+  useCredentialsSignUp,
+} from "@getahoy/auth";
 import Link from "next/link";
+import { signUpWithEmail } from "../client/authActions";
 import { AuthScreenLayout } from "../components/authScreenLayout";
 import { CredentialsForm } from "../components/credentialsForm";
 import { SocialSignInButtons } from "../components/socialSignInButtons";
 import { signUpFields } from "../forms/credentialFields";
-import { useCredentialsSignUp } from "../hooks/useCredentialsSignUp";
+import { useAuthNavigation } from "../hooks/useAuthNavigation";
 import { useSocialSignIn } from "../hooks/useSocialSignIn";
 import { SIGN_IN_PATH } from "../routes";
 
@@ -15,18 +20,24 @@ type SignUpScreenProps = {
 };
 
 export function SignUpScreen({ socialProviderIds }: SignUpScreenProps) {
-  const credentials = useCredentialsSignUp();
+  const navigation = useAuthNavigation();
+  const credentials = useCredentialsSignUp({
+    signUp: signUpWithEmail,
+    onSuccess: navigation.goToAccount,
+  });
   const social = useSocialSignIn();
   const pending = credentials.pending || social.pending;
 
   return (
-    <AuthScreenLayout title="Create your account">
+    <AuthScreenLayout title={authCopy["signUp.title"]}>
       <CredentialsForm
         fields={signUpFields}
-        submitLabel="Create account"
+        values={credentials.values}
+        submitLabel={authCopy["signUp.submit"]}
         pending={pending}
         errorMessage={credentials.errorMessage ?? social.errorMessage}
-        onSubmit={credentials.signUp}
+        onChange={credentials.setField}
+        onSubmit={credentials.submit}
       />
       <SocialSignInButtons
         providerIds={socialProviderIds}
@@ -37,7 +48,7 @@ export function SignUpScreen({ socialProviderIds }: SignUpScreenProps) {
         href={SIGN_IN_PATH}
         className="text-primary text-sm underline-offset-4 hover:underline"
       >
-        I already have an account
+        {authCopy["signUp.switch"]}
       </Link>
     </AuthScreenLayout>
   );

@@ -1,4 +1,4 @@
-import { type SocialProviderId, socialProviderCatalog } from "@getahoy/lib";
+import { type SocialProviderId, socialProviderCatalog } from "@getahoy/auth";
 import { serverEnv } from "@/env/serverEnv";
 import { googleProvider } from "../providers/google";
 

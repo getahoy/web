@@ -1,4 +1,4 @@
-import { type SocialProviderId, useAuthRequest } from "@getahoy/lib";
+import { type SocialProviderId, useAuthRequest } from "@getahoy/auth";
 import { authClient } from "../client/authClient";
 import { ACCOUNT_PATH } from "../routes";
 

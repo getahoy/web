@@ -1,5 +1,5 @@
 import { expo } from "@better-auth/expo";
-import { MINIMUM_PASSWORD_LENGTH } from "@getahoy/lib";
+import { MINIMUM_PASSWORD_LENGTH } from "@getahoy/auth";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";

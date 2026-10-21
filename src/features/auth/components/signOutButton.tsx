@@ -1,21 +1,27 @@
 "use client";
 
+import { authCopy, useSignOut } from "@getahoy/auth";
 import { Button } from "@/components/ui/button";
-import { useSignOut } from "../hooks/useSignOut";
+import { signOut } from "../client/authActions";
+import { useAuthNavigation } from "../hooks/useAuthNavigation";
 import { FormError } from "./formError";
 
 export function SignOutButton() {
-  const { pending, errorMessage, signOut } = useSignOut();
+  const navigation = useAuthNavigation();
+  const { pending, errorMessage, submit } = useSignOut({
+    signOut,
+    onSuccess: navigation.goToSignIn,
+  });
 
   return (
     <div className="flex flex-col gap-2">
       <Button
         type="button"
         variant="outline"
-        onClick={signOut}
+        onClick={submit}
         disabled={pending}
       >
-        {pending ? "Signing out…" : "Sign out"}
+        {pending ? authCopy["signOut.pending"] : authCopy["signOut.submit"]}
       </Button>
       <FormError message={errorMessage} />
     </div>
