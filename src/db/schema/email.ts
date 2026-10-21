@@ -11,14 +11,14 @@ import {
 } from "drizzle-orm/pg-core";
 import { user } from "./auth";
 
-export const emailKinds = [
+const emailKinds = [
   "email_verification",
   "email_otp",
   "password_reset",
   "email_change",
 ] as const;
 
-export const emailStatuses = [
+const emailStatuses = [
   "queued",
   "sending",
   "sent",
@@ -29,18 +29,14 @@ export const emailStatuses = [
   "suppressed",
 ] as const;
 
-export const emailEventTypes = [
+const emailEventTypes = [
   "delivered",
   "delivery_delayed",
   "bounced",
   "complained",
 ] as const;
 
-export const suppressionReasons = [
-  "hard_bounce",
-  "complaint",
-  "manual",
-] as const;
+const suppressionReasons = ["hard_bounce", "complaint", "manual"] as const;
 
 function isOneOf(column: AnyPgColumn, allowed: readonly string[]): SQL {
   const quoted = allowed.map((entry) => `'${entry}'`).join(", ");
