@@ -178,6 +178,9 @@ importers:
       '@getahoy/lib':
         specifier: file:../shared/packages/lib
         version: file:../shared/packages/lib(zod@4.6.7)
+      '@getahoy/tokens':
+        specifier: file:../shared/packages/tokens
+        version: file:../shared/packages/tokens
       '@neondatabase/serverless':
         specifier: 1.2.0
         version: 1.2.0
@@ -1057,6 +1060,9 @@ packages:
     resolution: {directory: ../shared/packages/lib, type: directory}
     peerDependencies:
       zod: ^4.0.0
+
+  '@getahoy/tokens@file:../shared/packages/tokens':
+    resolution: {directory: ../shared/packages/tokens, type: directory}
 
   '@hono/node-server@2.1.5':
     resolution: {integrity: sha512-MgP/I06GdvsilDspMk/qmRzpk8LOUStP6jFAbSRi40W09DhoyUn+Mj7eyKICPqeYKybOjVFLVIAQzvu1bfIa7Q==}
@@ -3823,6 +3829,8 @@ snapshots:
   '@getahoy/lib@file:../shared/packages/lib(zod@4.6.7)':
     dependencies:
       zod: 4.6.7
+
+  '@getahoy/tokens@file:../shared/packages/tokens': {}
 
   '@hono/node-server@2.1.5(hono@4.13.13)':
     dependencies:
