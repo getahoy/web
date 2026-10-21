@@ -1,6 +1,9 @@
-import { type SocialProviderId, socialProviderCatalog } from "@getahoy/auth";
 import { serverEnv } from "@/env/serverEnv";
 import { googleProvider } from "../providers/google";
+import {
+  type SocialProviderId,
+  socialProviderCatalog,
+} from "../providers/socialProviderCatalog";
 
 export const socialProviders = {
   ...googleProvider(serverEnv),

@@ -1,9 +1,10 @@
 "use client";
 
-import { authCopy, useSignOut } from "@getahoy/auth";
 import { Button } from "@/components/ui/button";
 import { signOut } from "../client/authActions";
+import { authCopy } from "../copy/authCopy";
 import { useAuthNavigation } from "../hooks/useAuthNavigation";
+import { useSignOut } from "../hooks/useSignOut";
 import { FormError } from "./formError";
 
 export function SignOutButton() {

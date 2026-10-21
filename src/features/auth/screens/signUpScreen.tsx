@@ -1,18 +1,16 @@
 "use client";
 
-import {
-  authCopy,
-  type SocialProviderId,
-  useCredentialsSignUp,
-} from "@getahoy/auth";
 import Link from "next/link";
 import { signUpWithEmail } from "../client/authActions";
 import { AuthScreenLayout } from "../components/authScreenLayout";
 import { CredentialsForm } from "../components/credentialsForm";
 import { SocialSignInButtons } from "../components/socialSignInButtons";
+import { authCopy } from "../copy/authCopy";
 import { signUpFields } from "../forms/credentialFields";
 import { useAuthNavigation } from "../hooks/useAuthNavigation";
+import { useCredentialsSignUp } from "../hooks/useCredentialsSignUp";
 import { useSocialSignIn } from "../hooks/useSocialSignIn";
+import type { SocialProviderId } from "../providers/socialProviderCatalog";
 import { SIGN_IN_PATH } from "../routes";
 
 type SignUpScreenProps = {

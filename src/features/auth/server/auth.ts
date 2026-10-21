@@ -1,11 +1,11 @@
 import { expo } from "@better-auth/expo";
-import { MINIMUM_PASSWORD_LENGTH } from "@getahoy/auth";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { database } from "@/db/client";
 import * as schema from "@/db/schema";
 import { serverEnv } from "@/env/serverEnv";
+import { MINIMUM_PASSWORD_LENGTH } from "../forms/credentialsSchema";
 import { socialProviders } from "./socialProviders";
 
 const MOBILE_APP_ORIGIN = "ahoy://";

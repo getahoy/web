@@ -17,7 +17,6 @@
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@better-auth/expo": "1.7.11",
-    "@getahoy/auth": "file:../shared/packages/auth",
     "@getahoy/lib": "file:../shared/packages/lib",
     "@getahoy/tokens": "file:../shared/packages/tokens",
     "@neondatabase/serverless": "1.2.0",
@@ -37,10 +36,12 @@
     "@biomejs/biome": "2.4.2",
     "@next/env": "16.4.2",
     "@tailwindcss/turbopack": "^4",
+    "@testing-library/react": "16.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "0.31.11",
+    "happy-dom": "21.0.4",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "5.0.5"
