@@ -10,6 +10,7 @@ import { nextCookies } from "better-auth/next-js";
 import { database } from "@/db/client";
 import * as schema from "@/db/schema";
 import { serverEnv } from "@/env/serverEnv";
+import { SIGN_IN_PATH } from "../routes";
 import { socialProviders } from "./socialProviders";
 
 export const auth = betterAuth({
@@ -24,5 +25,6 @@ export const auth = betterAuth({
   socialProviders,
   rateLimit: { storage: "database" },
   trustedOrigins: [`${APP_SCHEME}://`],
+  onAPIError: { errorURL: SIGN_IN_PATH },
   plugins: [expo(), nextCookies()],
 });

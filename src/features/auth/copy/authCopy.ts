@@ -19,7 +19,15 @@ export const authCopy = {
   "validation.password": "Enter your password",
   "validation.passwordMinLength": "Use at least {minimum} characters",
   "validation.passwordMaxLength": "Use at most {maximum} characters",
-  "error.unauthorized": "Email or password is incorrect.",
+  "error.unauthorized":
+    "Email or password is incorrect. New here? Create an account.",
   "error.conflict": "An account with this email already exists.",
   "error.forbidden": "Verify your email before signing in.",
+  "error.social": "Google sign in did not finish. Try again.",
+  "error.social.accountExists":
+    "This email is already registered. Sign in with your email and password.",
+  "error.social.cancelled": "Google sign in was cancelled.",
+  "error.social.expired": "Your Google sign in expired. Try again.",
+  "error.social.noEmail":
+    "Google did not share a verified email. Try another Google account.",
 } as const;

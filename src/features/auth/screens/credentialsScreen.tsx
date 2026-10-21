@@ -1,8 +1,10 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import type { z } from "zod";
 import { AuthScreenLayout } from "../components/authScreenLayout";
 import { CredentialsForm } from "../components/credentialsForm";
 import { SocialSignInButtons } from "../components/socialSignInButtons";
+import { SocialSignInError } from "../components/socialSignInError";
 import type { CredentialField } from "../forms/credentialFields";
 import { useAuthNavigation } from "../hooks/useAuthNavigation";
 import type { AuthResponse } from "../hooks/useAuthRequest";
@@ -35,6 +37,9 @@ export function CredentialsScreen<Input extends Record<string, string>>(
 
   return (
     <AuthScreenLayout title={props.title}>
+      <Suspense fallback={null}>
+        <SocialSignInError />
+      </Suspense>
       <CredentialsForm
         fields={props.fields}
         values={credentials.values}
