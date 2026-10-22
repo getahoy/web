@@ -9,7 +9,10 @@ import { auth } from "@/features/auth/server/auth";
 const signedOutOnlyPaths: readonly string[] = [SIGN_IN_PATH, SIGN_UP_PATH];
 
 export async function proxy(request: NextRequest) {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await auth.api
+    .getSession({ headers: request.headers })
+    .catch(() => undefined);
+  if (session === undefined) return NextResponse.next();
   const { pathname } = request.nextUrl;
 
   if (session && signedOutOnlyPaths.includes(pathname)) {
