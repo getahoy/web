@@ -13,10 +13,15 @@ import { serverEnv } from "@/env/serverEnv";
 import { SIGN_IN_PATH } from "../routes";
 import { socialProviders } from "./socialProviders";
 
+const SESSION_CACHE_SECONDS = 5 * 60;
+
 export const auth = betterAuth({
   baseURL: serverEnv.BETTER_AUTH_URL,
   secret: serverEnv.BETTER_AUTH_SECRET,
   database: drizzleAdapter(database, { provider: "pg", schema }),
+  session: {
+    cookieCache: { enabled: true, maxAge: SESSION_CACHE_SECONDS },
+  },
   emailAndPassword: {
     enabled: true,
     minPasswordLength: MINIMUM_PASSWORD_LENGTH,
