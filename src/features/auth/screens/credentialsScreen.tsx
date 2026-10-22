@@ -1,6 +1,7 @@
 import {
   type AuthResponse,
   type SocialProviderId,
+  useAuthRequest,
   useCredentialsForm,
 } from "@getahoy/lib";
 import Link from "next/link";
@@ -29,14 +30,15 @@ export function CredentialsScreen<Input extends Record<string, string>>(
   props: CredentialsScreenProps<Input>,
 ) {
   const navigation = useAuthNavigation();
-  const credentials = useCredentialsForm(
-    props.schema,
-    props.request,
-    navigation.goToAccount,
-  );
-  const social = useSocialSignIn();
-  const pending = credentials.pending || social.pending;
-  const errorMessage = credentials.errorMessage ?? social.errorMessage;
+  const authRequest = useAuthRequest();
+  const credentials = useCredentialsForm({
+    schema: props.schema,
+    request: props.request,
+    authRequest,
+    onSuccess: navigation.goToAccount,
+  });
+  const social = useSocialSignIn(authRequest);
+  const { pending, errorMessage } = authRequest;
 
   return (
     <AuthScreenLayout title={props.title}>
