@@ -36,18 +36,19 @@ export function CredentialsScreen<Input extends Record<string, string>>(
   );
   const social = useSocialSignIn();
   const pending = credentials.pending || social.pending;
+  const errorMessage = credentials.errorMessage ?? social.errorMessage;
 
   return (
     <AuthScreenLayout title={props.title}>
       <Suspense fallback={null}>
-        <SocialSignInError />
+        <SocialSignInError hidden={pending || errorMessage !== null} />
       </Suspense>
       <CredentialsForm
         fields={props.fields}
         values={credentials.values}
         submitLabel={props.submitLabel}
         pending={pending}
-        errorMessage={credentials.errorMessage ?? social.errorMessage}
+        errorMessage={errorMessage}
         onChange={credentials.setField}
         onSubmit={credentials.submit}
       />

@@ -2,8 +2,12 @@ import { socialErrorMessage } from "@getahoy/lib";
 import { useSearchParams } from "next/navigation";
 import { FormError } from "./formError";
 
-export function SocialSignInError() {
+type SocialSignInErrorProps = {
+  hidden: boolean;
+};
+
+export function SocialSignInError({ hidden }: SocialSignInErrorProps) {
   const callbackError = useSearchParams().get("error");
-  if (!callbackError) return null;
+  if (hidden || !callbackError) return null;
   return <FormError message={socialErrorMessage(callbackError)} />;
 }
