@@ -4,9 +4,11 @@ import {
   MAXIMUM_PASSWORD_LENGTH,
   MINIMUM_PASSWORD_LENGTH,
 } from "@getahoy/lib";
+import { DESKTOP_CLIENT_ID } from "@getahoy/protocol";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
+import { bearer, deviceAuthorization } from "better-auth/plugins";
 import { database } from "@/db/client";
 import * as schema from "@/db/schema";
 import { serverEnv } from "@/env/serverEnv";
@@ -31,5 +33,14 @@ export const auth = betterAuth({
   rateLimit: { storage: "database" },
   trustedOrigins: [`${APP_SCHEME}://`],
   onAPIError: { errorURL: SIGN_IN_PATH },
-  plugins: [expo(), nextCookies()],
+  plugins: [
+    expo(),
+    bearer(),
+    deviceAuthorization({
+      expiresIn: "5m",
+      interval: "2s",
+      validateClient: (clientId) => clientId === DESKTOP_CLIENT_ID,
+    }),
+    nextCookies(),
+  ],
 });

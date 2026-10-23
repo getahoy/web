@@ -1,0 +1,44 @@
+import { ErrorResponse, SuccessResponse } from "@getahoy/lib";
+import {
+  type PairingClaim,
+  PROTOCOL_VERSION,
+  pairingClaimRequestSchema,
+} from "@getahoy/protocol";
+import { apiRoute } from "@/features/api/server/apiRoute";
+import { invalidInputResponse, readJson } from "@/features/api/server/readJson";
+import { auth } from "@/features/auth/server/auth";
+import { pairingCopy } from "@/features/pairing/copy/pairingCopy";
+import { claimPairing } from "@/features/pairing/server/claimPairing";
+
+const APPROVED: PairingClaim = { approved: true };
+
+export const POST = apiRoute("pairing.claim", async (request) => {
+  const { headers } = request;
+  const session = await auth.api.getSession({ headers });
+  if (!session) {
+    return ErrorResponse("unauthorized", pairingCopy["error.signIn"]);
+  }
+  const parsed = await readJson(request, pairingClaimRequestSchema);
+  if (parsed.outcome === "invalid") return invalidInputResponse(parsed);
+  if (parsed.input.device.protocolVersion !== PROTOCOL_VERSION) {
+    return ErrorResponse(
+      "protocol_version_mismatch",
+      pairingCopy["error.updateApp"],
+    );
+  }
+  const claimed = await claimPairing({
+    userId: session.user.id,
+    request: parsed.input,
+    headers,
+  });
+  switch (claimed.outcome) {
+    case "approved":
+      return SuccessResponse(APPROVED);
+    case "unknown_code":
+      return ErrorResponse("not_found", pairingCopy["error.unknownCode"]);
+    default: {
+      const unhandled: never = claimed;
+      return unhandled;
+    }
+  }
+});
