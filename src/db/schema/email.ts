@@ -1,6 +1,5 @@
-import { type SQL, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 import {
-  type AnyPgColumn,
   check,
   index,
   integer,
@@ -9,6 +8,7 @@ import {
   timestamp,
   unique,
 } from "drizzle-orm/pg-core";
+import { isOneOf } from "../isOneOf";
 import { user } from "./auth";
 
 const emailKinds = [
@@ -37,11 +37,6 @@ const emailEventTypes = [
 ] as const;
 
 const suppressionReasons = ["hard_bounce", "complaint", "manual"] as const;
-
-function isOneOf(column: AnyPgColumn, allowed: readonly string[]): SQL {
-  const quoted = allowed.map((entry) => `'${entry}'`).join(", ");
-  return sql`${column} in (${sql.raw(quoted)})`;
-}
 
 const createdAt = () =>
   timestamp("created_at", { withTimezone: true }).defaultNow().notNull();

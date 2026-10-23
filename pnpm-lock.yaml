@@ -175,6 +175,9 @@ importers:
       '@getahoy/lib':
         specifier: file:../shared/packages/lib
         version: file:../shared/packages/lib(react@19.3.0)(zod@4.6.7)
+      '@getahoy/protocol':
+        specifier: file:../shared/packages/protocol
+        version: file:../shared/packages/protocol(zod@4.6.7)
       '@neondatabase/serverless':
         specifier: 1.2.0
         version: 1.2.0
@@ -1041,6 +1044,11 @@ packages:
     resolution: {directory: ../shared/packages/lib, type: directory}
     peerDependencies:
       react: ^19.0.0
+      zod: ^4.0.0
+
+  '@getahoy/protocol@file:../shared/packages/protocol':
+    resolution: {directory: ../shared/packages/protocol, type: directory}
+    peerDependencies:
       zod: ^4.0.0
 
   '@hono/node-server@2.1.5':
@@ -3460,6 +3468,10 @@ snapshots:
   '@getahoy/lib@file:../shared/packages/lib(react@19.3.0)(zod@4.6.7)':
     dependencies:
       react: 19.3.0
+      zod: 4.6.7
+
+  '@getahoy/protocol@file:../shared/packages/protocol(zod@4.6.7)':
+    dependencies:
       zod: 4.6.7
 
   '@hono/node-server@2.1.5(hono@4.13.13)':
