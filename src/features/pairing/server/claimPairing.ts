@@ -44,11 +44,18 @@ async function recordClaim({ userId, request }: ClaimInput): Promise<boolean> {
 }
 
 export async function claimPairing(input: ClaimInput): Promise<ClaimOutcome> {
-  if (!(await recordClaim(input))) return { outcome: "unknown_code" };
   const { userCode } = input.request;
+  const { headers } = input;
+  const binding = await auth.api.deviceVerify({
+    query: { user_code: userCode },
+    headers,
+    asResponse: true,
+  });
+  if (!binding.ok) return { outcome: "unknown_code" };
+  if (!(await recordClaim(input))) return { outcome: "unknown_code" };
   const approval = await auth.api.deviceApprove({
     body: { userCode },
-    headers: input.headers,
+    headers,
     asResponse: true,
   });
   if (approval.ok) return { outcome: "approved" };
