@@ -18,6 +18,12 @@ export const POST = apiRoute("pairing.unlink", async (request) => {
   }
   const parsed = await readJson(request, pairingUnlinkRequestSchema);
   if (parsed.outcome === "invalid") return invalidInputResponse(parsed);
-  await unlinkDevices({ userId: session.user.id, request: parsed.input });
+  const unlinked = await unlinkDevices({
+    userId: session.user.id,
+    request: parsed.input,
+  });
+  if (!unlinked) {
+    return ErrorResponse("not_found", pairingCopy["error.noActiveLink"]);
+  }
   return SuccessResponse(UNLINKED);
 });

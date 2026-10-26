@@ -3,7 +3,7 @@ import type {
   PairingComplete,
   PairingCompleteRequest,
 } from "@getahoy/protocol";
-import { and, eq } from "drizzle-orm";
+import { and, eq, isNull, ne } from "drizzle-orm";
 import { database, type Transaction } from "@/db/client";
 import { deviceLinks, devices, pairingClaims } from "@/db/schema";
 import { upsertDevice } from "./upsertDevice";
@@ -36,6 +36,24 @@ async function readDevice(
     protocolVersion: device.protocolVersion,
     capabilities: device.capabilities,
   };
+}
+
+async function replacePreviousPhones(
+  transaction: Transaction,
+  desktopId: string,
+  phoneId: string,
+  now: Date,
+) {
+  await transaction
+    .update(deviceLinks)
+    .set({ revokedAt: now, revokedBy: desktopId, revokeReason: "replaced" })
+    .where(
+      and(
+        eq(deviceLinks.desktopId, desktopId),
+        ne(deviceLinks.phoneId, phoneId),
+        isNull(deviceLinks.revokedAt),
+      ),
+    );
 }
 
 async function findClaim(
@@ -80,8 +98,14 @@ export function completePairing({
       .values({ phoneId: claim.phoneId, desktopId })
       .onConflictDoUpdate({
         target: [deviceLinks.phoneId, deviceLinks.desktopId],
-        set: { pairedAt: now, revokedAt: null },
+        set: {
+          pairedAt: now,
+          revokedAt: null,
+          revokedBy: null,
+          revokeReason: null,
+        },
       });
+    await replacePreviousPhones(transaction, desktopId, claim.phoneId, now);
     await transaction
       .delete(pairingClaims)
       .where(eq(pairingClaims.userCode, userCode));

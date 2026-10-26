@@ -3,38 +3,48 @@ import { and, eq, inArray, isNull, or } from "drizzle-orm";
 import { database } from "@/db/client";
 import { deviceLinks, devices } from "@/db/schema";
 
-const LINKED_PAIR = 2;
-
 type UnlinkInput = { userId: string; request: PairingUnlinkRequest };
 
-export async function unlinkDevices({
-  userId,
-  request,
-}: UnlinkInput): Promise<void> {
-  const keys = [request.devicePublicKey, request.peerPublicKey].map((key) =>
-    Buffer.from(key, "base64url"),
-  );
+async function ownedDeviceIds(userId: string, request: PairingUnlinkRequest) {
+  const caller = Buffer.from(request.devicePublicKey, "base64url");
+  const peer = Buffer.from(request.peerPublicKey, "base64url");
   const owned = await database
-    .select({ id: devices.id })
+    .select({ id: devices.id, publicKey: devices.publicKey })
     .from(devices)
     .where(
       and(
         eq(devices.userId, userId),
-        inArray(devices.publicKey, keys),
+        inArray(devices.publicKey, [caller, peer]),
         isNull(devices.revokedAt),
       ),
     );
-  const [first, second] = owned;
-  if (owned.length !== LINKED_PAIR || !first || !second) return;
+  const callerId = owned.find((device) => device.publicKey.equals(caller))?.id;
+  const peerId = owned.find((device) => device.publicKey.equals(peer))?.id;
+  return callerId && peerId ? { callerId, peerId } : null;
+}
+
+export async function unlinkDevices({
+  userId,
+  request,
+}: UnlinkInput): Promise<boolean> {
+  const ids = await ownedDeviceIds(userId, request);
+  if (!ids) return false;
+  const { callerId, peerId } = ids;
   const linkBetween = (phoneId: string, desktopId: string) =>
     and(eq(deviceLinks.phoneId, phoneId), eq(deviceLinks.desktopId, desktopId));
-  await database
+  const revoked = await database
     .update(deviceLinks)
-    .set({ revokedAt: new Date() })
+    .set({
+      revokedAt: new Date(),
+      revokedBy: callerId,
+      revokeReason: request.reason,
+    })
     .where(
       and(
         isNull(deviceLinks.revokedAt),
-        or(linkBetween(first.id, second.id), linkBetween(second.id, first.id)),
+        or(linkBetween(callerId, peerId), linkBetween(peerId, callerId)),
       ),
-    );
+    )
+    .returning({ phoneId: deviceLinks.phoneId });
+  return revoked.length > 0;
 }
