@@ -1,4 +1,4 @@
-import { ErrorResponse, SuccessResponse } from "@getahoy/lib";
+import { ErrorResponse, errorMessages, SuccessResponse } from "@getahoy/lib";
 import {
   type PairingClaim,
   PROTOCOL_VERSION,
@@ -9,6 +9,7 @@ import { invalidInputResponse, readJson } from "@/features/api/server/readJson";
 import { auth } from "@/features/auth/server/auth";
 import { pairingCopy } from "@/features/pairing/copy/pairingCopy";
 import { claimPairing } from "@/features/pairing/server/claimPairing";
+import { withinClaimLimit } from "@/features/pairing/server/claimRateLimit";
 
 const APPROVED: PairingClaim = { approved: true };
 
@@ -17,6 +18,9 @@ export const POST = apiRoute("pairing.claim", async (request) => {
   const session = await auth.api.getSession({ headers });
   if (!session) {
     return ErrorResponse("unauthorized", pairingCopy["error.signIn"]);
+  }
+  if (!(await withinClaimLimit(session.user.id, headers))) {
+    return ErrorResponse("rate_limited", errorMessages.rate_limited);
   }
   const parsed = await readJson(request, pairingClaimRequestSchema);
   if (parsed.outcome === "invalid") return invalidInputResponse(parsed);
