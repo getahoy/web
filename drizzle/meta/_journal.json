@@ -29,6 +29,13 @@
       "when": 1792795423482,
       "tag": "0003_devices_and_pairing",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792879387960,
+      "tag": "0004_link_revoke_reason",
+      "breakpoints": true
     }
   ]
 }

@@ -1,4 +1,4 @@
-import { PLATFORMS } from "@getahoy/protocol";
+import { END_REASONS, PLATFORMS } from "@getahoy/protocol";
 import { sql } from "drizzle-orm";
 import {
   check,
@@ -18,6 +18,7 @@ import { user } from "./auth";
 
 const deviceKinds = ["desktop", "phone"] as const;
 const platforms = PLATFORMS;
+const endReasons = END_REASONS;
 
 const bytea = customType<{ data: Buffer }>({ dataType: () => "bytea" });
 
@@ -68,8 +69,18 @@ export const deviceLinks = pgTable(
       .references(() => devices.id, { onDelete: "cascade" }),
     pairedAt: moment("paired_at").defaultNow().notNull(),
     revokedAt: moment("revoked_at"),
+    revokedBy: uuid("revoked_by").references(() => devices.id, {
+      onDelete: "set null",
+    }),
+    revokeReason: text("revoke_reason", { enum: endReasons }),
   },
-  (table) => [primaryKey({ columns: [table.phoneId, table.desktopId] })],
+  (table) => [
+    primaryKey({ columns: [table.phoneId, table.desktopId] }),
+    check(
+      "device_links_revoke_reason_check",
+      isOneOf(table.revokeReason, endReasons),
+    ),
+  ],
 );
 
 export const pairingClaims = pgTable(
