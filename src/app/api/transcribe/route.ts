@@ -5,7 +5,7 @@ import {
   consumeRateLimit,
   type RateLimitRule,
 } from "@/features/api/server/consumeRateLimit";
-import { auth } from "@/features/auth/server/auth";
+import { readSession } from "@/features/auth/server/readSession";
 import { speechCopy } from "@/features/speech/copy/speechCopy";
 import { readAudio } from "@/features/speech/server/readAudio";
 import { transcribeAudio } from "@/features/speech/server/transcribeAudio";
@@ -15,7 +15,7 @@ const PER_USER: RateLimitRule = { windowMs: 60_000, max: 20 };
 export const maxDuration = 30;
 
 export const POST = apiRoute("speech.transcribe", async (request) => {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await readSession(request.headers);
   if (!session) {
     return ErrorResponse("unauthorized", speechCopy["error.signIn"]);
   }

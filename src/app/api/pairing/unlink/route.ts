@@ -5,14 +5,14 @@ import {
 } from "@getahoy/protocol";
 import { apiRoute } from "@/features/api/server/apiRoute";
 import { invalidInputResponse, readJson } from "@/features/api/server/readJson";
-import { auth } from "@/features/auth/server/auth";
+import { readSession } from "@/features/auth/server/readSession";
 import { pairingCopy } from "@/features/pairing/copy/pairingCopy";
 import { unlinkDevices } from "@/features/pairing/server/unlinkDevices";
 
 const UNLINKED: PairingUnlink = { unlinked: true };
 
 export const POST = apiRoute("pairing.unlink", async (request) => {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await readSession(request.headers);
   if (!session) {
     return ErrorResponse("unauthorized", pairingCopy["error.signIn"]);
   }

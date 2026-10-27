@@ -2,12 +2,12 @@ import { ErrorResponse, parseInput, SuccessResponse } from "@getahoy/lib";
 import { bytes32Schema } from "@getahoy/protocol";
 import { apiRoute } from "@/features/api/server/apiRoute";
 import { invalidInputResponse } from "@/features/api/server/readJson";
-import { auth } from "@/features/auth/server/auth";
+import { readSession } from "@/features/auth/server/readSession";
 import { pairingCopy } from "@/features/pairing/copy/pairingCopy";
 import { listLinks } from "@/features/pairing/server/listLinks";
 
 export const GET = apiRoute("pairing.links", async (request) => {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await readSession(request.headers);
   if (!session) {
     return ErrorResponse("unauthorized", pairingCopy["error.signIn"]);
   }

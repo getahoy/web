@@ -5,12 +5,12 @@ import {
 } from "@getahoy/protocol";
 import { apiRoute } from "@/features/api/server/apiRoute";
 import { invalidInputResponse, readJson } from "@/features/api/server/readJson";
-import { auth } from "@/features/auth/server/auth";
+import { readSession } from "@/features/auth/server/readSession";
 import { pairingCopy } from "@/features/pairing/copy/pairingCopy";
 import { completePairing } from "@/features/pairing/server/completePairing";
 
 export const POST = apiRoute("pairing.complete", async (request) => {
-  const session = await auth.api.getSession({ headers: request.headers });
+  const session = await readSession(request.headers);
   if (!session) {
     return ErrorResponse("unauthorized", pairingCopy["error.signIn"]);
   }
