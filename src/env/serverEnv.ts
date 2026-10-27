@@ -13,6 +13,7 @@ const serverEnvSchema = z
     GOOGLE_CLIENT_ID: optionalSecret,
     GOOGLE_CLIENT_SECRET: optionalSecret,
     ELEVENLABS_API_KEY: z.string().min(1),
+    ANTHROPIC_API_KEY: z.string().min(1),
   })
   .refine(
     (env) =>

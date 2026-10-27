@@ -10,15 +10,18 @@
     "format": "biome format --write",
     "typecheck": "next typegen && tsc --noEmit",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "db:migrate": "drizzle-kit migrate",
+    "eval:interpret": "node --env-file=.env.local scripts/evalInterpret.ts"
   },
   "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.89",
     "@base-ui/react": "^1.9.0",
     "@better-auth/expo": "1.7.11",
     "@elevenlabs/elevenlabs-js": "^2.74.0",
     "@getahoy/lib": "file:../shared/packages/lib",
     "@getahoy/protocol": "file:../shared/packages/protocol",
     "@neondatabase/serverless": "1.2.0",
+    "ai": "^7.0.154",
     "better-auth": "1.7.11",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.5.0",
