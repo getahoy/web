@@ -15,6 +15,7 @@
   "dependencies": {
     "@base-ui/react": "^1.9.0",
     "@better-auth/expo": "1.7.11",
+    "@elevenlabs/elevenlabs-js": "^2.74.0",
     "@getahoy/lib": "file:../shared/packages/lib",
     "@getahoy/protocol": "file:../shared/packages/protocol",
     "@neondatabase/serverless": "1.2.0",
