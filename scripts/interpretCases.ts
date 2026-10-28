@@ -44,6 +44,10 @@ export const draft = (to: string, via: "mail" | "gmail"): InterpretAction => ({
   browser: null,
 });
 export const RETURN = keys("return", []);
+export const click = (label: string): InterpretAction => ({
+  kind: "click",
+  label,
+});
 
 const RAMBLE =
   "so yesterday I was thinking about how the weather has been really strange lately, " +
@@ -184,4 +188,8 @@ export const EVAL_CASES: readonly EvalCase[] = [
   { text: "clothes terminal", accept: [[quit("Terminal")], NONE] },
   { text: "open chrome open chrome", accept: [[open("Google Chrome")]] },
   { text: RAMBLE, accept: [NONE] },
+  { text: "hit the blue continue button", accept: [[click("continue")]] },
+  { text: "tap on sign in please", accept: [[click("sign in")]] },
+  { text: "click on the second option", accept: [NONE] },
+  { text: "press the delete key", accept: [[keys("delete", [])]] },
 ];

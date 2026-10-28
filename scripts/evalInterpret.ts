@@ -46,6 +46,8 @@ function describe(action: InterpretAction): string {
       return `keys ${[...action.modifiers].sort().join("+")}+${action.key}`;
     case "type":
       return `type "${action.text}"`;
+    case "click":
+      return `click "${action.label}"`;
     case "closeTab":
     case "switchTab":
       return `${action.kind} ${action.match} in ${action.browser ?? "any"}`;
