@@ -27,6 +27,10 @@ function plain(text: string): string {
     .trim();
 }
 
+function inBrowser(browser: string | null): string {
+  return browser ? ` in ${browser}` : "";
+}
+
 function describe(action: InterpretAction): string {
   switch (action.kind) {
     case "open":
@@ -35,9 +39,9 @@ function describe(action: InterpretAction): string {
     case "switch":
       return `${action.kind} ${action.app}`;
     case "search":
-      return `search "${action.query}"`;
+      return `search "${action.query}"${inBrowser(action.browser)}`;
     case "openSite":
-      return `site ${action.host}`;
+      return `site ${action.host}${inBrowser(action.browser)}`;
     case "keys":
       return `keys ${[...action.modifiers].sort().join("+")}+${action.key}`;
     case "type":
@@ -46,7 +50,7 @@ function describe(action: InterpretAction): string {
     case "switchTab":
       return `${action.kind} ${action.match} in ${action.browser ?? "any"}`;
     case "draftEmail":
-      return `draft to ${action.to ?? "nobody"} via ${action.via}`;
+      return `draft to ${action.to ?? "nobody"} via ${action.via}${inBrowser(action.browser)}`;
     default: {
       const unhandled: never = action;
       return unhandled;

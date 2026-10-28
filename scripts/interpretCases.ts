@@ -12,14 +12,14 @@ export const switchTo = (app: string): InterpretAction => ({
   kind: "switch",
   app,
 });
-export const search = (query: string): InterpretAction => ({
-  kind: "search",
-  query,
-});
-export const site = (host: string): InterpretAction => ({
-  kind: "openSite",
-  host,
-});
+export const search = (
+  query: string,
+  browser: string | null = null,
+): InterpretAction => ({ kind: "search", query, browser });
+export const site = (
+  host: string,
+  browser: string | null = null,
+): InterpretAction => ({ kind: "openSite", host, browser });
 export const keys = (
   key: KeyName,
   modifiers: KeyModifier[] = ["mod"],
@@ -41,6 +41,7 @@ export const draft = (to: string, via: "mail" | "gmail"): InterpretAction => ({
   subject: "",
   body: "",
   via,
+  browser: null,
 });
 export const RETURN = keys("return", []);
 
@@ -127,7 +128,12 @@ export const EVAL_CASES: readonly EvalCase[] = [
   { text: "type hello", accept: [[type("hello")]] },
   {
     text: "open chrome and search cats",
-    accept: [[open("Google Chrome"), search("cats")], [search("cats")]],
+    accept: [
+      [open("Google Chrome"), search("cats")],
+      [open("Google Chrome"), search("cats", "Google Chrome")],
+      [search("cats")],
+      [search("cats", "Google Chrome")],
+    ],
   },
   {
     text: "open notes and type buy milk",
@@ -136,6 +142,15 @@ export const EVAL_CASES: readonly EvalCase[] = [
   {
     text: "new tab and go to github.com",
     accept: [[keys("t"), site("github.com")], [site("github.com")]],
+  },
+  {
+    text: "open gmail in arc",
+    accept: [[site("mail.google.com", "Arc")], [site("gmail.com", "Arc")]],
+  },
+  { text: "search cats on safari", accept: [[search("cats", "Safari")]] },
+  {
+    text: "open youtube in brave",
+    accept: [NONE, [site("youtube.com", "Brave Browser")]],
   },
   { text: "close the grok tab", accept: [[closeTab("grok")]] },
   { text: "go to my gmail tab", accept: [[switchTab("gmail")]] },
