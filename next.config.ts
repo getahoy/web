@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  agentRules: false,
   cacheComponents: true,
   async redirects() {
     return [{ source: "/", destination: "/account", permanent: false }];
