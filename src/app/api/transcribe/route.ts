@@ -7,8 +7,8 @@ import {
 } from "@/features/api/server/consumeRateLimit";
 import { readSession } from "@/features/auth/server/readSession";
 import { speechCopy } from "@/features/speech/copy/speechCopy";
+import { transcribeAudio } from "@/features/speech/server/elevenLabs";
 import { readAudio } from "@/features/speech/server/readAudio";
-import { transcribeAudio } from "@/features/speech/server/transcribeAudio";
 
 const PER_USER: RateLimitRule = { windowMs: 60_000, max: 20 };
 
