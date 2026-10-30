@@ -1,4 +1,4 @@
-import { ErrorResponse, errorMessages } from "@getahoy/lib";
+import { ErrorResponse, errorMessages, SuccessResponse } from "@getahoy/lib";
 import { speakRequestSchema } from "@getahoy/protocol";
 import { apiRoute } from "@/features/api/server/apiRoute";
 import {
@@ -8,11 +8,22 @@ import {
 import { invalidInputResponse, readJson } from "@/features/api/server/readJson";
 import { readSession } from "@/features/auth/server/readSession";
 import { speechCopy } from "@/features/speech/copy/speechCopy";
-import { speakText } from "@/features/speech/server/elevenLabs";
+import {
+  configuredVoices,
+  speakText,
+} from "@/features/speech/server/elevenLabs";
 
 const PER_USER: RateLimitRule = { windowMs: 60_000, max: 60 };
 
 export const maxDuration = 15;
+
+export const GET = apiRoute("speech.voices", async (request) => {
+  const session = await readSession(request.headers);
+  if (!session) {
+    return ErrorResponse("unauthorized", speechCopy["error.signIn"]);
+  }
+  return SuccessResponse(configuredVoices());
+});
 
 // Audio is the one body that is not the JSON envelope; every failure still is.
 export const POST = apiRoute("speech.speak", async (request) => {

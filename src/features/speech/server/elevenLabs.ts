@@ -3,7 +3,11 @@ import {
   ElevenLabsError,
   ElevenLabsTimeoutError,
 } from "@elevenlabs/elevenlabs-js";
-import { MAX_COMMAND_TEXT_CHARS, type SpeakVoice } from "@getahoy/protocol";
+import {
+  MAX_COMMAND_TEXT_CHARS,
+  type SpeakVoice,
+  type SpeakVoices,
+} from "@getahoy/protocol";
 import { serverEnv } from "@/env/serverEnv";
 import { logger } from "@/features/logging/server/logger";
 import { COMMAND_KEYTERMS } from "./commandKeyterms";
@@ -69,6 +73,15 @@ function voiceIdFor(voice: SpeakVoice): string | undefined {
   return voice === "india"
     ? serverEnv.ELEVENLABS_VOICE_INDIA
     : serverEnv.ELEVENLABS_VOICE_DEFAULT;
+}
+
+export function configuredVoices(): SpeakVoices {
+  return {
+    voices: {
+      default: voiceIdFor("default") ?? null,
+      india: voiceIdFor("india") ?? null,
+    },
+  };
 }
 
 export async function speakText(
