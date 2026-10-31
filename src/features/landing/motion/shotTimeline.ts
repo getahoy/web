@@ -6,4 +6,4 @@ export const shotTimeline: readonly { stage: ShotStage; holdMs: number }[] = [
   { stage: "done", holdMs: 3800 },
 ];
 
-export const RESTING_STAGE: ShotStage = "done";
+export const RESTING_STEP = shotTimeline.length - 1;

@@ -21,7 +21,7 @@ export function PhoneTalkScreen({ stage }: { stage: ShotStage }) {
           {copy["phone.heard"]}
         </span>
       )}
-      <div className="absolute inset-x-0 bottom-11.5 flex flex-col items-center gap-2.5">
+      <div className="absolute inset-x-0 bottom-11.5 flex flex-col items-center gap-4">
         <span
           data-stage={stage}
           className="flex size-17 items-center justify-center rounded-full bg-ink text-white ring-signal-mist transition-[scale,box-shadow] duration-240 ease-spring data-[stage=listening]:scale-106 data-[stage=listening]:ring-14"
