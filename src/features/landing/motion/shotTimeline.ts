@@ -1,16 +1,26 @@
-export type ShotScene = "pause" | "closeTab" | "draft";
+export type ShotScene = "pause" | "note" | "draft";
 export type ShotStage = "listening" | "acting" | "done";
 
-const sceneOrder: readonly ShotScene[] = ["pause", "closeTab", "draft"];
+export const shotSceneOrder: readonly ShotScene[] = ["pause", "note", "draft"];
 
 const stageHolds: readonly { stage: ShotStage; holdMs: number }[] = [
-  { stage: "listening", holdMs: 1200 },
-  { stage: "acting", holdMs: 1100 },
-  { stage: "done", holdMs: 1700 },
+  { stage: "listening", holdMs: 2000 },
+  { stage: "acting", holdMs: 1500 },
+  { stage: "done", holdMs: 2500 },
 ];
 
-export const shotTimeline = sceneOrder.flatMap((scene) =>
+export const shotTimeline = shotSceneOrder.flatMap((scene) =>
   stageHolds.map((hold) => ({ scene, ...hold })),
 );
 
-export const RESTING_STEP = stageHolds.length - 1;
+function stepOf(scene: ShotScene, stage: ShotStage): number {
+  return shotTimeline.findIndex(
+    (entry) => entry.scene === scene && entry.stage === stage,
+  );
+}
+
+export const firstStepOf = (scene: ShotScene) => stepOf(scene, "listening");
+export const actingStepOf = (scene: ShotScene) => stepOf(scene, "acting");
+export const doneStepOf = (scene: ShotScene) => stepOf(scene, "done");
+
+export const RESTING_STEP = doneStepOf("pause");

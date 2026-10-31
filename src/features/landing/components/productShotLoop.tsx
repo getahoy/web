@@ -1,36 +1,27 @@
 "use client";
 
-import { useInView, useReducedMotion } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { useInView } from "motion/react";
+import { useRef } from "react";
+import { useShotPlayer } from "../hooks/useShotPlayer";
 import { SHOT_IN_VIEW_AMOUNT } from "../motion/landingMotion";
-import { RESTING_STEP, shotTimeline } from "../motion/shotTimeline";
 import { ProductShotScene } from "./productShotScene";
+import { ShotControls } from "./shotControls";
 
 export function ProductShotLoop() {
   const sceneRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sceneRef, { amount: SHOT_IN_VIEW_AMOUNT });
-  const reduced = useReducedMotion();
-  const [step, setStep] = useState(RESTING_STEP);
-  const current = shotTimeline[step] ?? shotTimeline[RESTING_STEP];
-
-  useEffect(() => {
-    if (!reduced) setStep(0);
-  }, [reduced]);
-
-  useEffect(() => {
-    if (!inView || reduced || !current) return;
-    const timer = setTimeout(
-      () => setStep((previous) => (previous + 1) % shotTimeline.length),
-      current.holdMs,
-    );
-    return () => clearTimeout(timer);
-  }, [inView, reduced, current]);
+  const player = useShotPlayer(inView);
 
   return (
-    <div ref={sceneRef}>
-      <ProductShotScene
-        scene={current?.scene ?? "pause"}
-        stage={current?.stage ?? "done"}
+    <div className="flex flex-col items-center gap-8 lg:gap-10">
+      <div ref={sceneRef} className="w-full">
+        <ProductShotScene scene={player.scene} stage={player.stage} />
+      </div>
+      <ShotControls
+        scene={player.scene}
+        paused={player.paused}
+        onScene={player.showScene}
+        onTogglePaused={player.togglePaused}
       />
     </div>
   );

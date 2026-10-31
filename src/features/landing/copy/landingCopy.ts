@@ -15,8 +15,13 @@ export const landingCopy = {
   "hero.microcopy": "One email when it’s ready. No spam.",
   "shot.label": "See it work",
   "shot.description":
-    "Ahoy on a Mac and an iPhone. You say “pause YouTube”, “close the Grok tab” or “write a Gmail to Jake saying I’ll be late” on the phone, and the Mac does it. The email opens as a draft for you to check and send.",
+    "Ahoy on a Mac and an iPhone. You say “pause YouTube”, “make a new note” or “write a Gmail to Jake saying I’ll be late” on the phone, and the Mac does it. The email opens as a draft for you to check and send.",
   "shot.video": "Demo video",
+  "shot.scenes": "Examples",
+  "shot.chip.pause": "Pause YouTube",
+  "shot.chip.note": "New note",
+  "shot.chip.draft": "Gmail draft",
+  "shot.pause": "Pause the demo",
   "statement.text":
     "Most assistants guess. Ahoy looks at what’s on your screen, does exactly what you said, and when two things match, it puts numbers on them and asks.",
   "how.label": "How it works",
@@ -34,9 +39,9 @@ export const landingCopy = {
   "how.step3.title": "It’s done.",
   "how.step3.body":
     "When there’s one match, Ahoy clicks it and tells you what it did.",
-  "how.step3.heard": "“close the Grok tab”",
+  "how.step3.heard": "“close the YouTube tab”",
   "how.step3.status": "Done · 0.8s",
-  "how.step3.message": "Closed the Grok tab in Arc.",
+  "how.step3.message": "Closed the YouTube tab in Chrome.",
   "asks.lead": "It asks",
   "asks.italic": "instead of guessing.",
   "asks.body":
