@@ -4,7 +4,7 @@ import { ChoiceTag } from "./choiceTag";
 import { MacWindow } from "./macWindow";
 import { OverlayPill } from "./overlayPill";
 
-export function MacChoiceWindow() {
+export function MacChoiceWindow({ selected }: { selected: number | null }) {
   return (
     <MacWindow
       title={copy["report.title"]}
@@ -21,6 +21,7 @@ export function MacChoiceWindow() {
             <ChoiceTag
               number={option.number}
               surface="screen"
+              selected={selected === option.number}
               className="absolute -top-3.5 -left-2.75"
             />
           </span>

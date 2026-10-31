@@ -11,25 +11,33 @@ const captions: Record<ShotStage, string> = {
   done: copy["phone.idle"],
 };
 
-type PhoneTalkScreenProps = { scene: ShotScene; stage: ShotStage };
+type PhoneTalkScreenProps = {
+  scene: ShotScene;
+  stage: ShotStage;
+  heard: string | null;
+};
 
-export function PhoneTalkScreen({ scene, stage }: PhoneTalkScreenProps) {
+export function PhoneTalkScreen({ scene, stage, heard }: PhoneTalkScreenProps) {
   const lines = shotScenes[scene];
+  const heardLine =
+    heard === null
+      ? lines.heard
+      : `${copy["heard.open"]}${heard}${copy["heard.close"]}`;
   return (
     <>
       <PhoneMacCard />
       {stage === "done" ? (
         <PhoneReplyCard
-          heard={lines.heard}
+          heard={heardLine}
           status={lines.status}
           message={lines.message}
         />
       ) : (
         <span
           key={scene}
-          className="absolute inset-x-4 top-37.5 animate-in text-balance text-center font-display text-driftwood text-heard italic duration-240 fade-in"
+          className="absolute inset-x-4 top-37.5 line-clamp-3 animate-in text-balance text-center font-display text-driftwood text-heard italic duration-240 fade-in"
         >
-          {lines.heard}
+          {heardLine}
         </span>
       )}
       <div className="absolute inset-x-0 bottom-11.5 flex flex-col items-center gap-4">

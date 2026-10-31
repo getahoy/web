@@ -118,6 +118,28 @@
   --container-note: 760px;
   --container-hero: 880px;
   --container-page: 1120px;
+
+  --animate-breathe: breathe 4.8s ease-in-out infinite;
+
+  @keyframes breathe {
+    0%,
+    100% {
+      scale: 0.92;
+    }
+    50% {
+      scale: 1;
+    }
+  }
+}
+
+@utility bg-orb-listen {
+  background-image: radial-gradient(
+    closest-side,
+    var(--color-signal) 0%,
+    var(--color-night-signal) 38%,
+    var(--color-signal-mist) 70%,
+    transparent 100%
+  );
 }
 
 @theme inline {

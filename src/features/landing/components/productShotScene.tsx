@@ -3,9 +3,17 @@ import { PhoneFrame } from "./phoneFrame";
 import { PhoneTalkScreen } from "./phoneTalkScreen";
 import { ShotMac } from "./shotMac";
 
-type ProductShotSceneProps = { scene: ShotScene; stage: ShotStage };
+type ProductShotSceneProps = {
+  scene: ShotScene;
+  stage: ShotStage;
+  heard: string | null;
+};
 
-export function ProductShotScene({ scene, stage }: ProductShotSceneProps) {
+export function ProductShotScene({
+  scene,
+  stage,
+  heard,
+}: ProductShotSceneProps) {
   return (
     <div
       aria-hidden="true"
@@ -13,7 +21,7 @@ export function ProductShotScene({ scene, stage }: ProductShotSceneProps) {
     >
       <ShotMac scene={scene} stage={stage} />
       <PhoneFrame>
-        <PhoneTalkScreen scene={scene} stage={stage} />
+        <PhoneTalkScreen scene={scene} stage={stage} heard={heard} />
       </PhoneFrame>
     </div>
   );

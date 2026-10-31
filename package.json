@@ -11,7 +11,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "eval:interpret": "node --env-file=.env.local scripts/evalInterpret.ts"
+    "eval:interpret": "node --env-file=.env.local scripts/evalInterpret.ts",
+    "voice:landing": "node --env-file=.env.local scripts/buildLandingVoice.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.89",

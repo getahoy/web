@@ -1,7 +1,5 @@
 import { landingCopy } from "../copy/landingCopy";
-import { ChoiceSheet } from "./choiceSheet";
-import { MacChoiceWindow } from "./macChoiceWindow";
-import { PhoneFrame } from "./phoneFrame";
+import { AsksDemo } from "./asksDemo";
 
 export function ItAsksSection() {
   return (
@@ -16,15 +14,7 @@ export function ItAsksSection() {
           </p>
         </div>
         <p className="sr-only">{landingCopy["asks.description"]}</p>
-        <div
-          aria-hidden="true"
-          className="pointer-events-none flex w-full select-none flex-col items-center justify-center gap-14 lg:flex-row lg:gap-24"
-        >
-          <MacChoiceWindow />
-          <PhoneFrame>
-            <ChoiceSheet />
-          </PhoneFrame>
-        </div>
+        <AsksDemo />
       </div>
     </section>
   );

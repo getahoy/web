@@ -29,6 +29,8 @@ export const illustrationCopy = {
   "compose.subject": "Running late",
   "compose.body": "Hi Jake, I’ll be a few minutes late.",
   "compose.send": "Send",
+  "heard.open": "“",
+  "heard.close": "”",
   "phone.time": "9:41",
   "phone.mac": "Studio Mac",
   "phone.connected": "Connected",

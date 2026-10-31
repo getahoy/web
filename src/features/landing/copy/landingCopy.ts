@@ -22,6 +22,18 @@ export const landingCopy = {
   "shot.chip.note": "New note",
   "shot.chip.draft": "Gmail draft",
   "shot.pause": "Pause the demo",
+  "try.start": "Try it yourself",
+  "try.stop": "Stop",
+  "try.listening": "Listening…",
+  "try.privacy":
+    "Your voice is handled by your browser’s speech service for this demo and never sent to Ahoy.",
+  "try.noMatch": "Try saying one of these",
+  "try.silence": "I didn’t hear anything. Try again.",
+  "try.micOff": "Microphone is off. Tap an example instead.",
+  "try.cannotListen": "This browser can’t listen here. Tap an example instead.",
+  "try.hint.pause": "“pause YouTube”",
+  "try.hint.note": "“make a new note”",
+  "try.hint.draft": "“write a Gmail to Jake”",
   "statement.text":
     "Most assistants guess. Ahoy looks at what’s on your screen, does exactly what you said, and when two things match, it puts numbers on them and asks.",
   "how.label": "How it works",
@@ -46,6 +58,15 @@ export const landingCopy = {
   "asks.italic": "instead of guessing.",
   "asks.body":
     "When more than one thing could be “save”, it puts the same number on each, on your Mac and your phone, and waits for you to pick.",
+  "asks.try": "Try it",
+  "asks.idle": "Say one, two or three, or tap a row.",
+  "asks.prompt": "I see three Save buttons. Say one, two or three.",
+  "asks.onlyThree": "There are only three. Say one, two or three.",
+  "asks.sayNumber": "Say one, two or three.",
+  "asks.pick": "Pick",
+  "asks.hint.1": "“one”",
+  "asks.hint.2": "“two”",
+  "asks.hint.3": "“three”",
   "asks.description":
     "A Mac window shows numbers 1 to 3 on three Save buttons. The iPhone shows the same three choices and asks which one.",
   "founder.quote":
