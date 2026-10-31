@@ -159,8 +159,8 @@ export const EVAL_CASES: readonly EvalCase[] = [
   { text: "close the grok tab", accept: [[closeTab("grok")]] },
   { text: "go to my gmail tab", accept: [[switchTab("gmail")]] },
   {
-    text: "draft a mail to samar abbas at gmail dot com about the hackathon credits",
-    accept: [[draft("samarabbas@gmail.com", "mail")]],
+    text: "draft a mail to jake bauer at gmail dot com about the hackathon credits",
+    accept: [[draft("jakebauer@gmail.com", "mail")]],
   },
   {
     text: "write a gmail to rahul at example dot com saying I'll be late",

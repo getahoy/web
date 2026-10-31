@@ -15,7 +15,7 @@ export const landingCopy = {
   "hero.microcopy": "One email when it’s ready. No spam.",
   "shot.label": "See it work",
   "shot.description":
-    "Ahoy on a Mac and an iPhone. You say “pause YouTube”, “close the Grok tab” or “write a Gmail to Samar saying I’ll be late” on the phone, and the Mac does it. The email opens as a draft for you to check and send.",
+    "Ahoy on a Mac and an iPhone. You say “pause YouTube”, “close the Grok tab” or “write a Gmail to Jake saying I’ll be late” on the phone, and the Mac does it. The email opens as a draft for you to check and send.",
   "shot.video": "Demo video",
   "statement.text":
     "Most assistants guess. Ahoy looks at what’s on your screen, does exactly what you said, and when two things match, it puts numbers on them and asks.",
