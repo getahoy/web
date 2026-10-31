@@ -1,4 +1,8 @@
-import type { DemoListener, ListenOutcome } from "./demoListener";
+import type {
+  DemoListener,
+  ListenOptions,
+  ListenOutcome,
+} from "./demoListener";
 
 const LANGUAGE = "en-IN";
 const MAX_LISTEN_MS = 6000;
@@ -43,29 +47,38 @@ function outcomeOfError(error: string): ListenOutcome {
   return { kind: "unavailable" };
 }
 
+function joinedTranscript(event: RecognitionResultEvent): string {
+  return Array.from(event.results, (result) => result[0]?.transcript ?? "")
+    .join("")
+    .trim();
+}
+
 function listenOnce(
   Recognition: RecognitionConstructor,
-  signal: AbortSignal,
+  options: ListenOptions,
 ): Promise<ListenOutcome> {
   return new Promise((resolve) => {
     const recognition = new Recognition();
     recognition.lang = LANGUAGE;
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.continuous = false;
     recognition.maxAlternatives = 1;
-    let outcome: ListenOutcome = { kind: "silence" };
+    let heard = "";
+    let failure: ListenOutcome | null = null;
     const timer = setTimeout(() => recognition.stop(), MAX_LISTEN_MS);
-    signal.addEventListener("abort", () => recognition.stop(), { once: true });
+    const stop = () => recognition.stop();
+    options.signal.addEventListener("abort", stop, { once: true });
     recognition.onresult = (event) => {
-      const transcript = event.results[0]?.[0]?.transcript?.trim() ?? "";
-      if (transcript !== "") outcome = { kind: "heard", transcript };
+      heard = joinedTranscript(event);
+      options.onPartial(heard);
     };
     recognition.onerror = (event) => {
-      outcome = outcomeOfError(event.error);
+      failure = outcomeOfError(event.error);
     };
     recognition.onend = () => {
       clearTimeout(timer);
-      resolve(outcome);
+      if (heard !== "") resolve({ kind: "heard", transcript: heard });
+      else resolve(failure ?? { kind: "silence" });
     };
     try {
       recognition.start();
@@ -79,5 +92,5 @@ function listenOnce(
 export function createBrowserSpeechListener(): DemoListener | null {
   const Recognition = findRecognition();
   if (!Recognition) return null;
-  return { listen: (signal) => listenOnce(Recognition, signal) };
+  return { listen: (options) => listenOnce(Recognition, options) };
 }

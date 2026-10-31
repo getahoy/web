@@ -1,33 +1,50 @@
+import { cn } from "@/lib/cn";
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
+import type { AsksPhase } from "../hooks/useAsksLoop";
+import { actingRing } from "./actingRing";
+import type { AsksPill } from "./asksView";
 import { choiceOptions } from "./choiceOptions";
 import { ChoiceTag } from "./choiceTag";
 import { MacWindow } from "./macWindow";
 import { OverlayPill } from "./overlayPill";
 
-export function MacChoiceWindow({ selected }: { selected: number | null }) {
+type MacChoiceWindowProps = {
+  phase: AsksPhase;
+  picked: number | null;
+  pill: AsksPill;
+};
+
+export function MacChoiceWindow({ phase, picked, pill }: MacChoiceWindowProps) {
+  const saved = phase === "done";
   return (
     <MacWindow
       title={copy["report.title"]}
-      detail={copy["report.detail"]}
-      className="w-full max-w-full sm:w-140"
+      detail={saved ? copy["report.saved"] : copy["report.edited"]}
+      className="w-full max-w-full lg:w-150"
     >
-      <div className="flex gap-6 border-macos-hairline border-b px-5 pt-7 pb-4">
+      <div className="flex gap-7 border-macos-hairline border-b px-5.5 pt-7.5 pb-4">
         {choiceOptions.map((option) => (
           <span
             key={option.number}
-            className="relative whitespace-nowrap rounded-control bg-macos-control px-3 py-1.5 text-micro"
+            data-acting={phase === "chosen" && picked === option.number}
+            className={cn(
+              "relative whitespace-nowrap rounded-control bg-macos-control px-3 py-1.5 text-micro",
+              actingRing,
+            )}
           >
             {option.label}
-            <ChoiceTag
-              number={option.number}
-              surface="screen"
-              selected={selected === option.number}
-              className="absolute -top-3.5 -left-2.75"
-            />
+            {saved ? null : (
+              <ChoiceTag
+                number={option.number}
+                surface="screen"
+                selected={picked === option.number}
+                className="absolute -top-3.5 -left-2.75"
+              />
+            )}
           </span>
         ))}
       </div>
-      <div className="flex flex-col gap-2.5 px-10 pt-19 pb-9">
+      <div className="flex flex-col gap-2.5 px-10 pt-19 pb-7.5">
         <span className="text-eyebrow text-macos-muted uppercase">
           {copy["report.eyebrow"]}
         </span>
@@ -40,10 +57,10 @@ export function MacChoiceWindow({ selected }: { selected: number | null }) {
         </p>
       </div>
       <OverlayPill
-        className="top-30.5"
-        label={copy["overlay.choose"]}
-        indicator="none"
-        timer="draining"
+        className="top-31"
+        label={pill.label}
+        indicator={pill.indicator}
+        timer={pill.timer}
       />
     </MacWindow>
   );

@@ -6,8 +6,13 @@ export type ListenOutcome =
   | { kind: "denied" }
   | { kind: "unavailable" };
 
+export type ListenOptions = {
+  signal: AbortSignal;
+  onPartial: (transcript: string) => void;
+};
+
 export type DemoListener = {
-  listen: (signal: AbortSignal) => Promise<ListenOutcome>;
+  listen: (options: ListenOptions) => Promise<ListenOutcome>;
 };
 
 // The one place that picks how the demo listens. Swap this line for a listener that

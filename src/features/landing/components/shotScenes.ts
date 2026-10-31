@@ -3,7 +3,8 @@ import { landingCopy } from "../copy/landingCopy";
 import type { ShotScene } from "../motion/shotTimeline";
 
 type SceneCopy = {
-  chip: string;
+  tab: string;
+  tabShort: string;
   heard: string;
   acting: string;
   done: string;
@@ -13,7 +14,8 @@ type SceneCopy = {
 
 export const shotScenes: Record<ShotScene, SceneCopy> = {
   pause: {
-    chip: landingCopy["shot.chip.pause"],
+    tab: landingCopy["shot.tab.pause"],
+    tabShort: landingCopy["shot.tab.pauseShort"],
     heard: copy["pause.heard"],
     acting: copy["pause.acting"],
     done: copy["pause.done"],
@@ -21,7 +23,8 @@ export const shotScenes: Record<ShotScene, SceneCopy> = {
     message: copy["pause.message"],
   },
   note: {
-    chip: landingCopy["shot.chip.note"],
+    tab: landingCopy["shot.tab.note"],
+    tabShort: landingCopy["shot.tab.noteShort"],
     heard: copy["note.heard"],
     acting: copy["note.acting"],
     done: copy["note.done"],
@@ -29,7 +32,8 @@ export const shotScenes: Record<ShotScene, SceneCopy> = {
     message: copy["note.message"],
   },
   draft: {
-    chip: landingCopy["shot.chip.draft"],
+    tab: landingCopy["shot.tab.draft"],
+    tabShort: landingCopy["shot.tab.draftShort"],
     heard: copy["draft.heard"],
     acting: copy["draft.acting"],
     done: copy["draft.done"],

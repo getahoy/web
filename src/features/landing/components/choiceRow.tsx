@@ -1,6 +1,4 @@
-import { cn } from "@/lib/cn";
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import { landingCopy } from "../copy/landingCopy";
 import { ChoiceTag } from "./choiceTag";
 
 type ChoiceRowProps = {
@@ -12,23 +10,23 @@ type ChoiceRowProps = {
 
 export function ChoiceRow({ number, label, selected, onPick }: ChoiceRowProps) {
   return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      aria-label={`${landingCopy["asks.pick"]} ${number}, ${label}`}
-      onClick={() => onPick(number)}
-      className={cn(
-        "flex h-14 w-full items-center gap-3 px-4 text-left transition-colors duration-150 hover:bg-sailcloth aria-pressed:bg-signal-mist",
-        "outline-none focus-visible:outline-2 focus-visible:outline-signal focus-visible:-outline-offset-2",
-      )}
-    >
+    <label className="flex min-h-14.5 w-full cursor-pointer items-center gap-3.5 px-4.5 py-2 transition-colors duration-240 hover:bg-sailcloth has-checked:bg-signal-mist has-focus-visible:outline-2 has-focus-visible:outline-signal has-focus-visible:-outline-offset-2">
+      <input
+        type="radio"
+        name="asks-choice"
+        value={number}
+        checked={selected}
+        readOnly
+        onClick={() => onPick(number)}
+        className="sr-only"
+      />
       <ChoiceTag number={number} surface="phone" selected={selected} />
-      <span className="flex min-w-0 flex-col">
-        <span className="font-medium text-button">{label}</span>
-        <span className="text-driftwood text-tiny">
+      <span className="flex min-w-0 flex-col gap-0.5">
+        <span className="font-medium text-body">{label}</span>
+        <span className="text-caption text-driftwood">
           {copy["choice.context"]}
         </span>
       </span>
-    </button>
+    </label>
   );
 }

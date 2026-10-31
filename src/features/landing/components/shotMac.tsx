@@ -1,33 +1,37 @@
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import type { ShotScene, ShotStage } from "../motion/shotTimeline";
-import { NotesWindow } from "./notesWindow";
+import type { ShotScene, ShotView } from "../motion/shotTimeline";
 import { OverlayPill } from "./overlayPill";
-import { ShotBrowser } from "./shotBrowser";
+import { SceneWindow } from "./sceneWindow";
 import { shotScenes } from "./shotScenes";
 
-const indicators = { listening: "wave", acting: "none", done: "done" } as const;
+type ShotMacProps = { scene: ShotScene; view: ShotView; micListening: boolean };
 
-const pillLabel = (scene: ShotScene, stage: ShotStage): string =>
-  stage === "listening"
-    ? copy["overlay.listening"]
-    : shotScenes[scene][stage === "acting" ? "acting" : "done"];
+function pill(scene: ShotScene, view: ShotView, micListening: boolean) {
+  if (micListening || view === "listening") {
+    return { label: copy["overlay.listening"], indicator: "wave" } as const;
+  }
+  if (view === "acting") {
+    return { label: shotScenes[scene].acting, indicator: "none" } as const;
+  }
+  if (view === "done") {
+    return { label: shotScenes[scene].done, indicator: "done" } as const;
+  }
+  return null;
+}
 
-type ShotMacProps = { scene: ShotScene; stage: ShotStage };
-
-export function ShotMac({ scene, stage }: ShotMacProps) {
+export function ShotMac({ scene, view, micListening }: ShotMacProps) {
+  const overlay = pill(scene, view, micListening);
   return (
-    <div className="relative w-full max-w-full sm:w-170">
-      {scene === "note" ? (
-        <NotesWindow stage={stage} />
-      ) : (
-        <ShotBrowser scene={scene} stage={stage} />
-      )}
-      <OverlayPill
-        className="top-15.5"
-        label={pillLabel(scene, stage)}
-        indicator={indicators[stage]}
-        timer="none"
-      />
+    <div className="relative w-full">
+      <SceneWindow scene={scene} view={view} />
+      {overlay ? (
+        <OverlayPill
+          className="top-14 animate-in fade-in"
+          label={overlay.label}
+          indicator={overlay.indicator}
+          timer="none"
+        />
+      ) : null}
     </div>
   );
 }

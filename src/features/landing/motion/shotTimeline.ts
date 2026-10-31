@@ -1,5 +1,6 @@
 export type ShotScene = "pause" | "note" | "draft";
 export type ShotStage = "listening" | "acting" | "done";
+export type ShotView = ShotStage | "rest";
 
 export const shotSceneOrder: readonly ShotScene[] = ["pause", "note", "draft"];
 
@@ -8,6 +9,9 @@ const stageHolds: readonly { stage: ShotStage; holdMs: number }[] = [
   { stage: "acting", holdMs: 1500 },
   { stage: "done", holdMs: 2500 },
 ];
+
+export const SCENE_MS = stageHolds.reduce((sum, hold) => sum + hold.holdMs, 0);
+export const ANSWER_LINGER_MS = 2000;
 
 export const shotTimeline = shotSceneOrder.flatMap((scene) =>
   stageHolds.map((hold) => ({ scene, ...hold })),
@@ -24,3 +28,10 @@ export const actingStepOf = (scene: ShotScene) => stepOf(scene, "acting");
 export const doneStepOf = (scene: ShotScene) => stepOf(scene, "done");
 
 export const RESTING_STEP = doneStepOf("pause");
+
+export function sceneOffsetMs(step: number): number {
+  const stageIndex = step % stageHolds.length;
+  return stageHolds
+    .slice(0, stageIndex)
+    .reduce((sum, hold) => sum + hold.holdMs, 0);
+}

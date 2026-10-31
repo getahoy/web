@@ -53,7 +53,11 @@ async function main() {
   const env = voiceEnvSchema.parse(process.env);
   const token = await signIn(env);
   await mkdir(OUTPUT_DIRECTORY, { recursive: true });
-  for (const [clip, text] of Object.entries(demoVoiceCopy)) {
+  const only = process.argv.slice(2);
+  const clips = Object.entries(demoVoiceCopy).filter(
+    ([clip]) => only.length === 0 || only.includes(clip),
+  );
+  for (const [clip, text] of clips) {
     const audio = await speak(env, token, text);
     await writeFile(join(OUTPUT_DIRECTORY, `${clip}.mp3`), audio);
     console.log(`${clip}.mp3  ${audio.byteLength} bytes`);
