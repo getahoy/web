@@ -1,3 +1,4 @@
+import { clientAddress } from "@/features/api/server/clientAddress";
 import {
   consumeRateLimit,
   type RateLimitRule,
@@ -6,11 +7,6 @@ import {
 const CLAIM_WINDOW_MS = 60_000;
 const PER_USER: RateLimitRule = { windowMs: CLAIM_WINDOW_MS, max: 10 };
 const PER_ADDRESS: RateLimitRule = { windowMs: CLAIM_WINDOW_MS, max: 30 };
-
-function clientAddress(headers: Headers): string | null {
-  const forwarded = headers.get("x-forwarded-for")?.split(",")[0]?.trim();
-  return forwarded || null;
-}
 
 export async function withinClaimLimit(
   userId: string,

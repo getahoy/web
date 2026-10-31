@@ -36,6 +36,13 @@
       "when": 1792879387960,
       "tag": "0004_link_revoke_reason",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793441054991,
+      "tag": "0005_waitlist_signups",
+      "breakpoints": true
     }
   ]
 }
