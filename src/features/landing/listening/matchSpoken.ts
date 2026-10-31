@@ -66,7 +66,7 @@ export function matchScene(transcript: string): ShotScene | null {
   return rule?.scene ?? null;
 }
 
-export type SpokenChoice =
+type SpokenChoice =
   | { kind: "pick"; number: number }
   | { kind: "outOfRange" }
   | { kind: "none" };

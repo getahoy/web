@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { choiceOptions } from "../components/choiceOptions";
+import { choiceOptions, clipOf } from "../copy/choiceOptions";
 import { asksAnswer } from "../listening/asksAnswer";
 import type { ListenOutcome } from "../listening/demoListener";
 import { useAsksLoop } from "./useAsksLoop";
@@ -13,9 +13,9 @@ export function useAsksDemo(active: boolean) {
   const [heard, setHeard] = useState<string | null>(null);
 
   const choose = (number: number) => {
-    const option = choiceOptions.find((entry) => entry.number === number);
     loop.choose(number);
-    if (option) void voice.play(option.clip);
+    const clip = clipOf(number);
+    if (clip) voice.play(clip);
   };
 
   const settle = (outcome: ListenOutcome) => {
@@ -23,7 +23,7 @@ export function useAsksDemo(active: boolean) {
     const answer = asksAnswer(outcome, choiceOptions.length);
     if (answer.kind === "pick") return choose(answer.number);
     loop.hold("idle");
-    void voice.play(answer.clip);
+    voice.play(answer.clip);
   };
 
   const tapMic = () => {

@@ -1,6 +1,7 @@
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import { BrowserWindow } from "./browserWindow";
-import { VideoPlayer } from "./videoPlayer";
+import { BrowserTab } from "./browserTab";
+import { MacWindow } from "./macWindow";
+import { YoutubePage } from "./youtubePage";
 
 const tabs = [
   { label: copy["tab.youtube"], state: "target" },
@@ -10,10 +11,17 @@ const tabs = [
 
 export function ScreenReadVisual() {
   return (
-    <BrowserWindow tabs={tabs} position="front" className="w-full max-w-140">
-      <div className="relative aspect-video">
-        <VideoPlayer state="playing" />
-      </div>
-    </BrowserWindow>
+    <MacWindow
+      className="aspect-window w-full max-w-140"
+      header={
+        <span className="ml-2 flex min-w-0 items-center gap-1.5">
+          {tabs.map((tab) => (
+            <BrowserTab key={tab.label} label={tab.label} state={tab.state} />
+          ))}
+        </span>
+      }
+    >
+      <YoutubePage view="rest" />
+    </MacWindow>
   );
 }

@@ -1,4 +1,4 @@
-import { landingCopy } from "../copy/landingCopy";
+import { landingCopy } from "./landingCopy";
 
 export const shotExamples = [
   landingCopy["shot.example.pause"],

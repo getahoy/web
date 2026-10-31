@@ -20,7 +20,12 @@ export function YoutubePage({ view }: { view: ShotView }) {
             actingRing,
           )}
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 pb-8">
+          <div
+            className={cn(
+              "absolute inset-0 flex flex-col items-center justify-center gap-2 pb-8 transition-opacity duration-240",
+              paused && "opacity-25",
+            )}
+          >
             <span className="font-label text-fog text-tiny uppercase tracking-eyebrow">
               {copy["youtube.chapter"]}
             </span>

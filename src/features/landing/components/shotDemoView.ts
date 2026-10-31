@@ -1,7 +1,9 @@
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
+import { landingCopy } from "../copy/landingCopy";
+import { shotScenes } from "../copy/shotScenes";
 import type { MicStatus } from "../hooks/useDemoListening";
 import type { ShotMode } from "../hooks/useShotSteps";
-import { micTimer, quoted } from "../listening/micTimer";
+import { demoTimer, micTimer, quote } from "../listening/spokenText";
 import {
   SCENE_MS,
   type ShotScene,
@@ -11,12 +13,9 @@ import {
   shotTimeline,
 } from "../motion/shotTimeline";
 import type { TabProgress } from "./demoTabProgress";
-import { micBarState } from "./micBarState";
-import type { PhoneBar } from "./phoneDemoScreen";
-import { shotScenes } from "./shotScenes";
+import { micBarState, type PhoneBar } from "./micBarState";
 
 const PERCENT = 100;
-const SHOWN_SECONDS = 1;
 
 type ShotDemoState = {
   step: number;
@@ -30,9 +29,6 @@ type ShotDemoState = {
   heard: string | null;
   noMatch: boolean;
 };
-
-const quote = (text: string) =>
-  quoted(copy["heard.open"], text, copy["heard.close"]);
 
 function heardLine(state: ShotDemoState, view: ShotView): string | null {
   if (state.micStatus === "listening") {
@@ -56,11 +52,11 @@ function bar(state: ShotDemoState, view: ShotView): PhoneBar {
     return micBarState("blocked", copy["bar.blocked"], label);
   }
   if (view === "listening") {
-    const timer = micTimer(SHOWN_SECONDS);
-    return micBarState("showListening", listening, start, timer);
+    return micBarState("showListening", listening, start, demoTimer);
   }
-  const sending = view === "acting";
-  if (sending) return micBarState("sending", copy["bar.sending"], start);
+  if (view === "acting") {
+    return micBarState("sending", copy["bar.sending"], start);
+  }
   return micBarState("idle", copy["bar.idle"], start);
 }
 
@@ -76,11 +72,18 @@ function progress(state: ShotDemoState, view: ShotView): TabProgress | null {
 
 export type ShotDemoShown = ReturnType<typeof shotDemoView>;
 
+function announcement(state: ShotDemoState, view: ShotView): string {
+  if (state.noMatch) return landingCopy["try.noMatch"];
+  const answered = state.mode === "answer" && view === "done";
+  return answered ? shotScenes[state.scene].message : "";
+}
+
 export function shotDemoView(state: ShotDemoState) {
   const listening = state.micStatus === "listening";
   const view: ShotView =
     listening || state.mode === "idle" ? "rest" : state.stage;
   return {
+    announcement: announcement(state, view),
     view,
     heard: heardLine(state, view),
     bar: bar(state, view),

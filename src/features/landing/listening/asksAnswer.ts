@@ -1,9 +1,9 @@
 import type { VoiceClip } from "../copy/demoVoiceCopy";
 import type { ListenOutcome } from "./demoListener";
-import { listeningMisses } from "./listeningMisses";
 import { matchChoice } from "./matchSpoken";
+import { missClips } from "./missClips";
 
-export type AsksAnswer =
+type AsksAnswer =
   | { kind: "pick"; number: number }
   | { kind: "miss"; clip: VoiceClip };
 
@@ -12,7 +12,7 @@ export function asksAnswer(
   optionCount: number,
 ): AsksAnswer {
   if (outcome.kind !== "heard") {
-    return { kind: "miss", clip: listeningMisses[outcome.kind].clip };
+    return { kind: "miss", clip: missClips[outcome.kind] };
   }
   const spoken = matchChoice(outcome.transcript, optionCount);
   switch (spoken.kind) {

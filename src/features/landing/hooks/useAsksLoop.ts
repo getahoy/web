@@ -1,6 +1,6 @@
 import { useReducedMotion } from "motion/react";
 import { useEffect, useState } from "react";
-import { DEFAULT_CHOICE } from "../components/choiceOptions";
+import { DEFAULT_CHOICE } from "../copy/choiceOptions";
 
 export type AsksPhase = "idle" | "listening" | "chosen" | "done";
 

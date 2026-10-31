@@ -36,9 +36,6 @@ export const landingCopy = {
   "try.privacy":
     "Your voice is handled by your browser’s speech service for this demo and never sent to Ahoy.",
   "try.noMatch": "Try saying one of these",
-  "try.silence": "I didn’t hear anything. Try again.",
-  "try.micOff": "Microphone is off. Use the tabs instead.",
-  "try.cannotListen": "This browser can’t listen here. Use the tabs instead.",
   "statement.text":
     "Most assistants guess. Ahoy looks at what’s on your screen, does exactly what you said, and when two things match, it puts numbers on them and asks.",
   "how.label": "How it works",
@@ -63,8 +60,6 @@ export const landingCopy = {
   "asks.italic": "instead of guessing.",
   "asks.body":
     "When more than one thing could be “save”, it puts the same number on each, on your Mac and your phone, and waits for you to pick.",
-  "asks.onlyThree": "There are only three. Say one, two or three.",
-  "asks.sayNumber": "Say one, two or three.",
   "asks.description":
     "A Mac window shows numbers 1 to 3 on three Save buttons. The iPhone shows the same three choices and asks which one.",
   "founder.quote":

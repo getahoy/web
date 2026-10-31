@@ -1,8 +1,8 @@
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
+import { shotScenes } from "../copy/shotScenes";
 import type { ShotScene, ShotView } from "../motion/shotTimeline";
 import { OverlayPill } from "./overlayPill";
 import { SceneWindow } from "./sceneWindow";
-import { shotScenes } from "./shotScenes";
 
 type ShotMacProps = { scene: ShotScene; view: ShotView; micListening: boolean };
 

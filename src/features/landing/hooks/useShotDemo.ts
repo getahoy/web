@@ -1,18 +1,12 @@
 import { useState } from "react";
-import type { VoiceClip } from "../copy/demoVoiceCopy";
+import { shotScenes } from "../copy/shotScenes";
 import type { ListenOutcome } from "../listening/demoListener";
-import { listeningMisses } from "../listening/listeningMisses";
 import { matchScene } from "../listening/matchSpoken";
+import { missClips } from "../listening/missClips";
 import type { ShotScene } from "../motion/shotTimeline";
 import { useDemoListening } from "./useDemoListening";
 import { useShotSteps } from "./useShotSteps";
 import { useVoiceClips } from "./useVoiceClips";
-
-const sceneClips: Record<ShotScene, VoiceClip> = {
-  pause: "paused",
-  note: "newNote",
-  draft: "drafted",
-};
 
 export function useShotDemo(inView: boolean) {
   const steps = useShotSteps(inView);
@@ -23,17 +17,17 @@ export function useShotDemo(inView: boolean) {
 
   const settle = (outcome: ListenOutcome) => {
     if (outcome.kind !== "heard") {
-      void voice.play(listeningMisses[outcome.kind].clip);
+      voice.play(missClips[outcome.kind]);
       return;
     }
     setHeard(outcome.transcript);
     const scene = matchScene(outcome.transcript);
     if (!scene) {
       setNoMatch(true);
-      void voice.play("noMatch");
+      voice.play("noMatch");
       return;
     }
-    voice.playAfter(sceneClips[scene], steps.answer(scene));
+    voice.playAfter(shotScenes[scene].clip, steps.answer(scene));
   };
 
   const tapMic = () => {
@@ -48,6 +42,7 @@ export function useShotDemo(inView: boolean) {
 
   const clearAnd = (next: () => void) => {
     mic.stop();
+    voice.stop();
     setHeard(null);
     setNoMatch(false);
     next();

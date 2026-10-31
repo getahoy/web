@@ -1,17 +1,11 @@
 import { landingCopy } from "../copy/landingCopy";
+import { shotScenes } from "../copy/shotScenes";
 import type { ShotScene, ShotView } from "../motion/shotTimeline";
+import type { PhoneBar } from "./micBarState";
 import { PhoneDoneCard } from "./phoneDoneCard";
 import { PhoneExamples } from "./phoneExamples";
 import { PhoneMacCard } from "./phoneMacCard";
-import { type MicBarMode, PhoneMicBar } from "./phoneMicBar";
-import { shotScenes } from "./shotScenes";
-
-export type PhoneBar = {
-  mode: MicBarMode;
-  text: string;
-  label: string;
-  timer: string | null;
-};
+import { PhoneMicBar } from "./phoneMicBar";
 
 type PhoneDemoScreenProps = {
   scene: ShotScene;
@@ -51,16 +45,10 @@ export function PhoneDemoScreen(props: PhoneDemoScreenProps) {
       {props.showExamples ? (
         <PhoneExamples highlighted={props.noMatch} />
       ) : null}
-      {props.bar.mode === "listening" || props.bar.mode === "showListening" ? (
-        <span
-          aria-hidden="true"
-          className="absolute -bottom-2.5 left-1/2 h-37.5 w-75 -translate-x-1/2 animate-breathe rounded-full bg-orb-listen motion-reduce:animate-none"
-        />
-      ) : null}
       <PhoneMicBar
-        {...props.bar}
+        bar={props.bar}
         size="phone"
-        className="absolute inset-x-3 bottom-9 w-auto"
+        className="absolute inset-x-3 bottom-9"
         onTap={props.onTapMic}
       />
     </>

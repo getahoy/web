@@ -1,12 +1,9 @@
+import { clickedLine, labelOf } from "../copy/choiceOptions";
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
 import type { AsksPhase } from "../hooks/useAsksLoop";
 import type { MicStatus } from "../hooks/useDemoListening";
-import { micTimer, quoted } from "../listening/micTimer";
-import { labelOf } from "./choiceOptions";
-import { micBarState } from "./micBarState";
-import type { PhoneBar } from "./phoneDemoScreen";
-
-const SHOWN_SECONDS = 1;
+import { demoTimer, micTimer, quote } from "../listening/spokenText";
+import { micBarState, type PhoneBar } from "./micBarState";
 
 type AsksState = {
   phase: AsksPhase;
@@ -24,15 +21,12 @@ export type AsksPill = {
   timer: "none" | "draining";
 };
 
-const quote = (text: string) =>
-  quoted(copy["heard.open"], text, copy["heard.close"]);
-
 function heardLine(state: AsksState): string | null {
   if (state.userTurn) return state.heard ? quote(state.heard) : null;
   return state.phase === "chosen" ? quote(copy["choice.autoHeard"]) : null;
 }
 
-function bar(state: AsksState, heard: string | null): PhoneBar {
+function bar(state: AsksState): PhoneBar {
   const start = copy["choice.start"];
   if (state.micStatus === "blocked") {
     const label = copy["choice.unavailable"];
@@ -45,9 +39,10 @@ function bar(state: AsksState, heard: string | null): PhoneBar {
     return micBarState("listening", text, copy["bar.stop"], timer);
   }
   if (state.phase === "listening") {
-    const timer = micTimer(SHOWN_SECONDS);
-    return micBarState("showListening", copy["bar.listening"], start, timer);
+    const text = copy["bar.listening"];
+    return micBarState("showListening", text, start, demoTimer);
   }
+  const heard = heardLine(state);
   if (state.phase === "chosen" && heard) {
     return micBarState("sending", heard, start);
   }
@@ -61,24 +56,23 @@ const pillState = (
 ): AsksPill => ({ label, indicator, timer });
 
 function pill(state: AsksState): AsksPill {
-  const label = labelOf(state.choice);
   if (state.micStatus === "listening" || state.phase === "listening") {
     return pillState(copy["overlay.listening"], "wave");
   }
   if (state.phase === "chosen") {
-    return pillState(`${copy["choice.clicking"]} ${label}`, "none");
+    const label = `${copy["choice.clicking"]} ${labelOf(state.choice)}`;
+    return pillState(label, "none");
   }
   if (state.phase === "done") {
-    return pillState(`${copy["choice.clickedPrefix"]} ${label}.`, "done");
+    return pillState(clickedLine(state.choice), "done");
   }
   return pillState(copy["overlay.choose"], "none", "draining");
 }
 
 export function asksView(state: AsksState) {
-  const heard = heardLine(state);
   const chosen = state.phase === "chosen" || state.phase === "done";
   return {
-    bar: bar(state, heard),
+    bar: bar(state),
     pill: pill(state),
     picked: chosen ? state.choice : null,
   };

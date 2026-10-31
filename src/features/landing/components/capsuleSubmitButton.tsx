@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";
+import { focusRing } from "./focusRing";
 
 type CapsuleSubmitButtonProps = {
   tone: CapsuleTone;
@@ -17,7 +18,8 @@ export function CapsuleSubmitButton(props: CapsuleSubmitButtonProps) {
       type="submit"
       disabled={props.busy}
       className={cn(
-        "group h-13 w-full gap-2 rounded-full px-5 font-medium font-text text-button outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:ring-0 active:scale-97 disabled:opacity-100 xs:h-full xs:w-auto",
+        "group h-13 w-full gap-2 rounded-full px-5 font-medium font-text text-button focus-visible:ring-0 active:scale-97 disabled:opacity-100 xs:h-full xs:w-auto",
+        focusRing,
         tone.button,
         tone.focus,
       )}

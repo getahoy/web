@@ -1,7 +1,7 @@
+import { choiceOptions } from "../copy/choiceOptions";
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import { choiceOptions } from "./choiceOptions";
 import { ChoiceRow } from "./choiceRow";
-import type { PhoneBar } from "./phoneDemoScreen";
+import type { PhoneBar } from "./micBarState";
 import { PhoneMicBar } from "./phoneMicBar";
 
 type ChoiceSheetProps = {
@@ -17,7 +17,6 @@ export function ChoiceSheet({
   onPick,
   onTapMic,
 }: ChoiceSheetProps) {
-  const orb = bar.mode === "listening" || bar.mode === "showListening";
   return (
     <div className="absolute inset-x-0 bottom-0 flex flex-col rounded-t-sheet bg-paper pb-7.5 shadow-float">
       <div aria-hidden="true" className="flex justify-center pt-2">
@@ -41,20 +40,12 @@ export function ChoiceSheet({
           />
         ))}
       </fieldset>
-      <div className="relative mx-3 mt-2.5">
-        {orb ? (
-          <span
-            aria-hidden="true"
-            className="absolute -bottom-7.5 left-1/2 h-27.5 w-65 -translate-x-1/2 animate-breathe rounded-full bg-orb-listen motion-reduce:animate-none"
-          />
-        ) : null}
-        <PhoneMicBar
-          {...bar}
-          size="sheet"
-          className="relative"
-          onTap={onTapMic}
-        />
-      </div>
+      <PhoneMicBar
+        bar={bar}
+        size="sheet"
+        className="mx-3 mt-2.5"
+        onTap={onTapMic}
+      />
     </div>
   );
 }

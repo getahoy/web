@@ -4,7 +4,7 @@ import { AsksDone } from "./asksDone";
 import type { AsksPill } from "./asksView";
 import { ChoiceSheet } from "./choiceSheet";
 import { MacChoiceWindow } from "./macChoiceWindow";
-import type { PhoneBar } from "./phoneDemoScreen";
+import type { PhoneBar } from "./micBarState";
 import { PhoneFrame } from "./phoneFrame";
 import { PhoneMacCard } from "./phoneMacCard";
 

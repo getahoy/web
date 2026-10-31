@@ -1,11 +1,11 @@
 import type { Ref } from "react";
 import { landingCopy } from "../copy/landingCopy";
+import { shotScenes } from "../copy/shotScenes";
 import type { ShotScene } from "../motion/shotTimeline";
 import { PhoneDemoScreen } from "./phoneDemoScreen";
 import { PhoneFrame } from "./phoneFrame";
 import type { ShotDemoShown } from "./shotDemoView";
 import { ShotMac } from "./shotMac";
-import { shotScenes } from "./shotScenes";
 
 type ShotDevicesProps = {
   ref: Ref<HTMLDivElement>;

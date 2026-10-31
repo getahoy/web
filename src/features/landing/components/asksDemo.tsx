@@ -2,22 +2,23 @@
 
 import { useInView } from "motion/react";
 import { useRef } from "react";
-import { illustrationCopy as copy } from "../copy/illustrationCopy";
+import { clickedLine } from "../copy/choiceOptions";
+import { asksExamples } from "../copy/sayExamples";
 import { useAsksDemo } from "../hooks/useAsksDemo";
-import { SHOT_IN_VIEW_AMOUNT } from "../motion/landingMotion";
+import { DEMO_IN_VIEW_AMOUNT } from "../motion/landingMotion";
 import { AsksDevices } from "./asksDevices";
 import { asksView } from "./asksView";
-import { labelOf } from "./choiceOptions";
 import { DemoFooter } from "./demoFooter";
-import { asksExamples } from "./sayExamples";
 
 export function AsksDemo() {
   const demoRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(demoRef, { amount: SHOT_IN_VIEW_AMOUNT });
+  const inView = useInView(demoRef, { amount: DEMO_IN_VIEW_AMOUNT });
   const demo = useAsksDemo(inView);
   const { loop, mic } = demo;
   const shown = asksView({
-    ...loop,
+    phase: loop.phase,
+    choice: loop.choice,
+    userTurn: loop.userTurn,
     heard: demo.heard,
     micStatus: mic.status,
     micLive: mic.live,
@@ -40,11 +41,7 @@ export function AsksDemo() {
       <DemoFooter
         examples={mic.status === "blocked" ? null : asksExamples}
         privacyVisible={mic.status === "listening"}
-        announcement={
-          answered
-            ? `${copy["choice.clickedPrefix"]} ${labelOf(loop.choice)}.`
-            : ""
-        }
+        announcement={answered ? clickedLine(loop.choice) : ""}
       />
     </div>
   );

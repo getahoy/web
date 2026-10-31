@@ -3,7 +3,7 @@ import { database } from "@/db/client";
 import { waitlistSignup } from "@/db/schema";
 import type { WaitlistSource } from "../forms/waitlistRequest";
 
-export type JoinOutcome = "saved" | "already_listed";
+type JoinOutcome = "saved" | "already_listed";
 
 export async function joinWaitlist(signup: {
   email: string;

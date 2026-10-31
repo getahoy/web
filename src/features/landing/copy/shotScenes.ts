@@ -1,6 +1,7 @@
-import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import { landingCopy } from "../copy/landingCopy";
 import type { ShotScene } from "../motion/shotTimeline";
+import type { VoiceClip } from "./demoVoiceCopy";
+import { illustrationCopy as copy } from "./illustrationCopy";
+import { landingCopy } from "./landingCopy";
 
 type SceneCopy = {
   tab: string;
@@ -10,6 +11,7 @@ type SceneCopy = {
   done: string;
   status: string;
   message: string;
+  clip: VoiceClip;
 };
 
 export const shotScenes: Record<ShotScene, SceneCopy> = {
@@ -21,6 +23,7 @@ export const shotScenes: Record<ShotScene, SceneCopy> = {
     done: copy["pause.done"],
     status: copy["pause.status"],
     message: copy["pause.message"],
+    clip: "paused",
   },
   note: {
     tab: landingCopy["shot.tab.note"],
@@ -30,6 +33,7 @@ export const shotScenes: Record<ShotScene, SceneCopy> = {
     done: copy["note.done"],
     status: copy["note.status"],
     message: copy["note.message"],
+    clip: "newNote",
   },
   draft: {
     tab: landingCopy["shot.tab.draft"],
@@ -39,5 +43,6 @@ export const shotScenes: Record<ShotScene, SceneCopy> = {
     done: copy["draft.done"],
     status: copy["draft.status"],
     message: copy["draft.message"],
+    clip: "drafted",
   },
 };

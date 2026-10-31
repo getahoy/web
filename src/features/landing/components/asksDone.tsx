@@ -1,5 +1,5 @@
+import { labelOf } from "../copy/choiceOptions";
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import { labelOf } from "./choiceOptions";
 import { PhoneDoneCard } from "./phoneDoneCard";
 
 export function AsksDone({ choice }: { choice: number }) {

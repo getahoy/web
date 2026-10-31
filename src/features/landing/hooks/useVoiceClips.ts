@@ -1,15 +1,13 @@
 import { useEffect, useRef } from "react";
 import { type VoiceClip, voiceClipUrl } from "../copy/demoVoiceCopy";
 
-const UNLOCK_CLIP: VoiceClip = "noMatch";
-
 export function useVoiceClips() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(
     () => () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      clearTimeout(timerRef.current);
       audioRef.current?.pause();
     },
     [],
@@ -24,7 +22,7 @@ export function useVoiceClips() {
   const unlock = () => {
     const audio = element();
     audio.muted = true;
-    audio.src = voiceClipUrl(UNLOCK_CLIP);
+    audio.src = voiceClipUrl("noMatch");
     const settle = () => {
       if (audio.muted) audio.pause();
       audio.muted = false;
@@ -32,20 +30,23 @@ export function useVoiceClips() {
     audio.play().then(settle, settle);
   };
 
-  const play = (clip: VoiceClip): Promise<void> =>
-    new Promise((resolve) => {
-      const audio = element();
-      audio.muted = false;
-      audio.src = voiceClipUrl(clip);
-      audio.onended = () => resolve();
-      audio.onerror = () => resolve();
-      audio.play().catch(() => resolve());
-    });
-
-  const playAfter = (clip: VoiceClip, delayMs: number) => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => void play(clip), delayMs);
+  const play = (clip: VoiceClip) => {
+    clearTimeout(timerRef.current);
+    const audio = element();
+    audio.muted = false;
+    audio.src = voiceClipUrl(clip);
+    audio.play().catch(() => undefined);
   };
 
-  return { unlock, play, playAfter };
+  const playAfter = (clip: VoiceClip, delayMs: number) => {
+    clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => play(clip), delayMs);
+  };
+
+  const stop = () => {
+    clearTimeout(timerRef.current);
+    audioRef.current?.pause();
+  };
+
+  return { unlock, play, playAfter, stop };
 }

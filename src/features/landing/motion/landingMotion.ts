@@ -1,6 +1,6 @@
 export const NAV_PILL_AFTER_PX = 80;
 
-const EASE_ENTER = [0.22, 1, 0.36, 1] as const;
+export const EASE_ENTER = [0.22, 1, 0.36, 1] as const;
 const REDUCED_FADE_SECONDS = 0.15;
 
 export const headlineMotion = {
@@ -18,7 +18,7 @@ export function litWordCount(progress: number, totalWords: number): number {
   return Math.round(share * totalWords);
 }
 
-export const SHOT_IN_VIEW_AMOUNT = 0.3;
+export const DEMO_IN_VIEW_AMOUNT = 0.3;
 
 export const spinnerTiming = {
   showAfterMs: 300,

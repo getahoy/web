@@ -1,5 +1,7 @@
-import { Mic, MicOff, Square } from "lucide-react";
 import { cn } from "@/lib/cn";
+import { focusRing } from "./focusRing";
+import type { PhoneBar } from "./micBarState";
+import { MicDisc } from "./micDisc";
 
 export type MicBarMode =
   | "idle"
@@ -9,71 +11,69 @@ export type MicBarMode =
   | "blocked";
 
 type PhoneMicBarProps = {
-  mode: MicBarMode;
-  text: string;
-  label: string;
-  timer: string | null;
+  bar: PhoneBar;
   size: "phone" | "sheet";
   className?: string;
   onTap: () => void;
 };
 
-const icons = {
-  idle: Mic,
-  listening: Square,
-  showListening: Mic,
-  sending: Mic,
-  blocked: MicOff,
+const sizes = {
+  phone: {
+    bar: "h-15",
+    disc: "size-11",
+    icon: "size-5",
+    text: "truncate text-body-sm",
+    orb: "-bottom-11.5 h-37.5 w-75",
+  },
+  sheet: {
+    bar: "min-h-13",
+    disc: "size-9",
+    icon: "size-4",
+    text: "text-balance text-micro",
+    orb: "-bottom-7.5 h-27.5 w-65",
+  },
 };
 
-export function PhoneMicBar(props: PhoneMicBarProps) {
-  const Icon = icons[props.mode];
-  const lit = props.mode !== "idle" && props.mode !== "blocked";
-  const phone = props.size === "phone";
+export function PhoneMicBar({ bar, size, className, onTap }: PhoneMicBarProps) {
+  const look = sizes[size];
+  const hearing = bar.mode === "listening" || bar.mode === "showListening";
+  const lit = hearing || bar.mode === "sending";
   return (
-    <button
-      type="button"
-      onClick={props.onTap}
-      aria-label={props.label}
-      aria-disabled={props.mode === "blocked"}
-      className={cn(
-        "flex w-full items-center gap-2.5 rounded-full bg-ink pl-2 text-left transition-transform duration-150 active:scale-98 aria-disabled:cursor-not-allowed",
-        "outline-none focus-visible:outline-2 focus-visible:outline-signal focus-visible:outline-offset-2",
-        phone ? "h-15 pr-4.5" : "min-h-13 pr-4.5",
-        props.className,
-      )}
-    >
-      <span
-        className={cn(
-          "relative flex shrink-0 items-center justify-center rounded-full bg-paper text-ink",
-          phone ? "size-11" : "size-9",
-          props.mode === "blocked" && "opacity-40",
-        )}
-      >
-        {props.mode === "idle" ? (
-          <span
-            aria-hidden="true"
-            className="absolute inset-0 animate-mic-pulse rounded-full border-2 border-paper motion-reduce:hidden"
-          />
-        ) : null}
-        <Icon
+    <div className={cn("relative", className)}>
+      {hearing ? (
+        <span
           aria-hidden="true"
-          strokeWidth={1.5}
-          className={phone ? "size-5" : "size-4"}
+          className={cn(
+            "absolute left-1/2 -translate-x-1/2 animate-breathe rounded-full bg-orb-listen motion-reduce:animate-none",
+            look.orb,
+          )}
         />
-      </span>
-      <span
+      ) : null}
+      <button
+        type="button"
+        onClick={onTap}
+        aria-label={bar.label}
+        aria-disabled={bar.mode === "blocked"}
         className={cn(
-          "min-w-0 flex-1 font-medium",
-          phone ? "truncate text-body-sm" : "text-balance text-micro",
-          lit ? "text-sailcloth" : "text-fog",
+          "relative flex w-full items-center gap-2.5 rounded-full bg-ink pr-4.5 pl-2 text-left transition-transform duration-150 active:scale-98 aria-disabled:cursor-not-allowed",
+          focusRing,
+          look.bar,
         )}
       >
-        {props.text}
-      </span>
-      {props.timer ? (
-        <span className="font-label text-caption text-fog">{props.timer}</span>
-      ) : null}
-    </button>
+        <MicDisc mode={bar.mode} disc={look.disc} icon={look.icon} />
+        <span
+          className={cn(
+            "min-w-0 flex-1 font-medium",
+            look.text,
+            lit ? "text-sailcloth" : "text-fog",
+          )}
+        >
+          {bar.text}
+        </span>
+        {bar.timer ? (
+          <span className="font-label text-caption text-fog">{bar.timer}</span>
+        ) : null}
+      </button>
+    </div>
   );
 }

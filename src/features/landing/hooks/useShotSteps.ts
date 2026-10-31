@@ -60,7 +60,6 @@ export function useShotSteps(inView: boolean) {
     stage: current?.stage ?? "done",
     mode,
     playing: mode === "auto" && playing,
-    reduced: reduced === true,
     autoFrom,
     answer,
     rest: () => setMode("idle"),

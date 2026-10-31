@@ -2,6 +2,7 @@ import { cn } from "@/lib/cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
 import type { CapsuleNotice } from "../errors/waitlistNotice";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";
+import { focusRing } from "./focusRing";
 
 type CapsuleMessageProps = {
   id: string;
@@ -29,7 +30,8 @@ export function CapsuleMessage({ id, tone, notice }: CapsuleMessageProps) {
           <button
             type="submit"
             className={cn(
-              "rounded-sm font-medium underline underline-offset-4 outline-none focus-visible:outline-2 focus-visible:outline-offset-2",
+              "rounded-sm font-medium underline underline-offset-4",
+              focusRing,
               classes.focus,
             )}
           >

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/cn";
-import { shotExamples } from "./sayExamples";
+import { shotExamples } from "../copy/sayExamples";
 
 export function PhoneExamples({ highlighted }: { highlighted: boolean }) {
   return (

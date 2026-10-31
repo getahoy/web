@@ -2,13 +2,14 @@ import { Mail, Pause, Play, StickyNote } from "lucide-react";
 import { motion } from "motion/react";
 import { cn } from "@/lib/cn";
 import { landingCopy } from "../copy/landingCopy";
+import { shotScenes } from "../copy/shotScenes";
+import { EASE_ENTER } from "../motion/landingMotion";
 import { type ShotScene, shotSceneOrder } from "../motion/shotTimeline";
 import { DemoTabProgress, type TabProgress } from "./demoTabProgress";
 import { focusRing } from "./focusRing";
-import { shotScenes } from "./shotScenes";
 
 const icons = { pause: Play, note: StickyNote, draft: Mail };
-const SLIDE = { duration: 0.48, ease: [0.22, 1, 0.36, 1] } as const;
+const SLIDE = { duration: 0.48, ease: EASE_ENTER } as const;
 const PERCENT = 100;
 
 type DemoTabsProps = {
