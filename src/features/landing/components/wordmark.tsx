@@ -1,4 +1,4 @@
-import { cn } from "cn";
+import { cn } from "@/lib/cn";
 import { landingCopy } from "../copy/landingCopy";
 
 type WordmarkSize = "nav" | "footer";

@@ -1,4 +1,4 @@
-import { cn } from "cn";
+import { cn } from "@/lib/cn";
 import { CtaBand } from "../components/ctaBand";
 import { FounderNote } from "../components/founderNote";
 import { HeroSection } from "../components/heroSection";

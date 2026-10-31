@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "cn";
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { useState } from "react";
+import { cn } from "@/lib/cn";
 import { landingCopy } from "../copy/landingCopy";
 import { NAV_PILL_AFTER_PX } from "../motion/landingMotion";
 import { focusRing } from "./focusRing";

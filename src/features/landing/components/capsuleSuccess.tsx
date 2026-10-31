@@ -1,5 +1,5 @@
-import { cn } from "cn";
 import { Check } from "lucide-react";
+import { cn } from "@/lib/cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";
 

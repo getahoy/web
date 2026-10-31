@@ -1,6 +1,6 @@
-import { cn } from "cn";
 import { ArrowRight, LoaderCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";
 

@@ -1,4 +1,4 @@
-import { cn } from "cn";
+import { cn } from "@/lib/cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
 import type { CapsuleNotice } from "../errors/waitlistNotice";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";

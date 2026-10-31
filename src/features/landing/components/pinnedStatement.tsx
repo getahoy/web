@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "cn";
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/cn";
 import { landingCopy } from "../copy/landingCopy";
 import { litWordCount } from "../motion/landingMotion";
 

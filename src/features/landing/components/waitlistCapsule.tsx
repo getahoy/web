@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from "cn";
 import { useId } from "react";
+import { cn } from "@/lib/cn";
 import type { WaitlistSource } from "../forms/waitlistRequest";
 import { useWaitlistCapsule } from "../hooks/useWaitlistCapsule";
 import { CapsuleFields } from "./capsuleFields";

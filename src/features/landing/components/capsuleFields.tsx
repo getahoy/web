@@ -1,6 +1,6 @@
-import { cn } from "cn";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { cn } from "@/lib/cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
 import { CapsuleSubmitButton } from "./capsuleSubmitButton";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";

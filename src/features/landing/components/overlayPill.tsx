@@ -1,4 +1,4 @@
-import { cn } from "cn";
+import { cn } from "@/lib/cn";
 
 type OverlayPillProps = {
   indicator: "none" | "wave" | "done";
