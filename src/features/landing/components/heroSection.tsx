@@ -13,7 +13,7 @@ export function HeroSection() {
         {landingCopy["hero.subtitle"]}
       </p>
       <div id="waitlist" className="mt-9 w-full max-w-capsule scroll-mt-24">
-        <WaitlistCapsule tone="light" />
+        <WaitlistCapsule tone="light" source="hero" />
       </div>
       <p className="mt-3.5 text-driftwood text-micro">
         {landingCopy["hero.microcopy"]}

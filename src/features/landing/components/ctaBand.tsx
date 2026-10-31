@@ -9,7 +9,7 @@ export function CtaBand() {
       </h2>
       <div className="flex w-full max-w-capsule flex-col items-center gap-3.5">
         <div className="w-full">
-          <WaitlistCapsule tone="night" />
+          <WaitlistCapsule tone="night" source="cta" />
         </div>
         <p className="text-micro text-night-driftwood">
           {landingCopy["hero.microcopy"]}

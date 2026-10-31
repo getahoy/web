@@ -1,11 +1,7 @@
 import { cn } from "cn";
 import { waitlistCopy } from "../copy/waitlistCopy";
+import type { CapsuleNotice } from "../errors/waitlistNotice";
 import { type CapsuleTone, capsuleTones } from "./capsuleTones";
-
-export type CapsuleNotice =
-  | { kind: "none" }
-  | { kind: "invalid" }
-  | { kind: "failed"; message: string };
 
 type CapsuleMessageProps = {
   id: string;
@@ -15,11 +11,12 @@ type CapsuleMessageProps = {
 
 export function CapsuleMessage({ id, tone, notice }: CapsuleMessageProps) {
   const classes = capsuleTones[tone];
+  const visible = notice.kind === "invalid" || notice.kind === "failed";
   return (
     <p
       id={id}
       aria-live="polite"
-      className="mt-2 px-5 text-center text-micro empty:mt-0"
+      className={cn("px-5 text-center text-micro", visible && "mt-2")}
     >
       {notice.kind === "invalid" ? (
         <span className={classes.error}>
@@ -39,6 +36,9 @@ export function CapsuleMessage({ id, tone, notice }: CapsuleMessageProps) {
             {waitlistCopy.retry}
           </button>
         </span>
+      ) : null}
+      {notice.kind === "joined" ? (
+        <span className="sr-only">{waitlistCopy.success}</span>
       ) : null}
     </p>
   );
