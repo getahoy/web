@@ -4,6 +4,167 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-xs: 23.75rem;
+
+  --color-ink: #171614;
+  --color-sailcloth: #f4f2ed;
+  --color-linen: #ebe8e1;
+  --color-paper: #fdfcfa;
+  --color-rope: #dedad0;
+  --color-driftwood: #6e6a62;
+  --color-fog: #a29d93;
+  --color-signal: #3a4cf0;
+  --color-signal-mist: #e3e5ff;
+  --color-flare: #c8412b;
+  --color-flare-mist: #fbe4de;
+  --color-kelp: #2e7352;
+  --color-night: #121110;
+  --color-night-raised: #1c1b19;
+  --color-night-rope: #2e2c28;
+  --color-night-driftwood: #a39e94;
+  --color-night-signal: #8e9aff;
+  --color-night-signal-mist: #23264a;
+  --color-night-flare: #ff7a5c;
+  --color-night-kelp: #5fbf8f;
+  --color-phone-bezel: #3a3834;
+  --color-macos-chrome: #f6f6f6;
+  --color-macos-hairline: #e4e4e4;
+  --color-macos-control: #ebebeb;
+  --color-macos-text: #1d1d1f;
+  --color-macos-body: #3a3a3c;
+  --color-macos-muted: #8a8a8a;
+  --color-macos-close: #ff5f57;
+  --color-macos-minimize: #febc2e;
+  --color-macos-zoom: #28c840;
+
+  --text-tiny: 10px;
+  --text-tiny--line-height: 1.3;
+  --text-eyebrow: 11px;
+  --text-eyebrow--line-height: 1.33;
+  --text-eyebrow--letter-spacing: 0.06em;
+  --text-caption: 12px;
+  --text-caption--line-height: 1.33;
+  --text-micro: 13px;
+  --text-micro--line-height: 1.4;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.43;
+  --text-button: 15px;
+  --text-button--line-height: 1.3;
+  --text-tag: 16px;
+  --text-tag--line-height: 1;
+  --text-body: 17px;
+  --text-body--line-height: 1.5;
+  --text-body--letter-spacing: -0.011em;
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.45;
+  --text-body-lg--letter-spacing: -0.011em;
+  --text-wordmark: 22px;
+  --text-wordmark--line-height: 1;
+  --text-wordmark--letter-spacing: -0.02em;
+  --text-heard: 24px;
+  --text-heard--line-height: 1.15;
+  --text-heard--letter-spacing: -0.01em;
+  --text-quote: 24px;
+  --text-quote--line-height: 1.3;
+  --text-quote--letter-spacing: -0.01em;
+  --text-title: 26px;
+  --text-title--line-height: 1.1;
+  --text-title--letter-spacing: -0.01em;
+  --text-reveal: 30px;
+  --text-reveal--line-height: 1.15;
+  --text-reveal--letter-spacing: -0.015em;
+  --text-heading: 40px;
+  --text-heading--line-height: 1.02;
+  --text-heading--letter-spacing: -0.02em;
+  --text-display: 52px;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-giant: 28vw;
+  --text-giant--line-height: 1;
+  --text-giant--letter-spacing: -0.04em;
+
+  --tracking-eyebrow: 0.06em;
+
+  --radius-control: 6px;
+  --radius-tag: 7px;
+  --radius-thumb: 10px;
+  --radius-window: 12px;
+  --radius-phone-card: 18px;
+  --radius-card: 24px;
+  --radius-sheet: 28px;
+  --radius-panel: 32px;
+  --radius-phone-screen: 36px;
+  --radius-phone: 44px;
+
+  --shadow-float:
+    0 1px 0 rgba(23, 22, 20, 0.04), 0 16px 40px -16px rgba(23, 22, 20, 0.22);
+  --shadow-tag: 0 0 0 2px #f4f2ed, 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-overlay:
+    0 1px 0 rgba(23, 22, 20, 0.04), 0 16px 40px -16px rgba(0, 0, 0, 0.45);
+  --shadow-window:
+    0 0 0 0.5px rgba(0, 0, 0, 0.16), 0 40px 80px -32px rgba(23, 22, 20, 0.38);
+  --shadow-phone:
+    inset 0 0 0 1px #3a3834, 0 40px 80px -32px rgba(23, 22, 20, 0.45);
+
+  --ease-enter: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-sheet: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --container-step: 440px;
+  --container-capsule: 480px;
+  --container-subtitle: 520px;
+  --container-statement: 680px;
+  --container-note: 760px;
+  --container-hero: 880px;
+  --container-page: 1120px;
+}
+
+@theme inline {
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-display--font-variation-settings: "SOFT" 100, "WONK" 1;
+  --font-text: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-text--font-feature-settings: "cv11", "ss01";
+  --font-label: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  --giant-visible-ratio: 0.74;
+}
+
+@media (width >= 40rem) {
+  :root {
+    --text-eyebrow: 12px;
+    --text-body: 16px;
+    --text-body-lg: 20px;
+    --text-quote: 28px;
+    --text-title: 28px;
+    --text-reveal: 44px;
+    --text-heading: 48px;
+    --text-display: 76px;
+    --text-giant: calc((100vw - 4rem) / 1.75);
+  }
+}
+
+@media (width >= 64rem) {
+  :root {
+    --text-heading: 56px;
+    --text-display: 96px;
+    --text-giant: calc((100vw - 6rem) / 1.75);
+  }
+}
+
+@utility h-pin {
+  height: 200svh;
+  @media (width >= 40rem) {
+    height: 250svh;
+  }
+}
+
+@utility h-giant {
+  height: calc(var(--text-giant) * var(--giant-visible-ratio));
+}
+
 @theme inline {
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
