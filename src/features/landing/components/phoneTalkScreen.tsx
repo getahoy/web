@@ -1,24 +1,35 @@
 import { Mic } from "lucide-react";
 import { illustrationCopy as copy } from "../copy/illustrationCopy";
-import type { ShotStage } from "../motion/shotTimeline";
+import type { ShotScene, ShotStage } from "../motion/shotTimeline";
 import { PhoneMacCard } from "./phoneMacCard";
 import { PhoneReplyCard } from "./phoneReplyCard";
+import { shotScenes } from "./shotScenes";
 
 const captions: Record<ShotStage, string> = {
   listening: copy["phone.listening"],
-  clicking: copy["phone.sending"],
+  acting: copy["phone.sending"],
   done: copy["phone.idle"],
 };
 
-export function PhoneTalkScreen({ stage }: { stage: ShotStage }) {
+type PhoneTalkScreenProps = { scene: ShotScene; stage: ShotStage };
+
+export function PhoneTalkScreen({ scene, stage }: PhoneTalkScreenProps) {
+  const lines = shotScenes[scene];
   return (
     <>
       <PhoneMacCard />
       {stage === "done" ? (
-        <PhoneReplyCard />
+        <PhoneReplyCard
+          heard={lines.heard}
+          status={lines.status}
+          message={lines.message}
+        />
       ) : (
-        <span className="absolute inset-x-4 top-37.5 animate-in text-center font-display text-driftwood text-heard italic duration-240 fade-in">
-          {copy["phone.heard"]}
+        <span
+          key={scene}
+          className="absolute inset-x-4 top-37.5 animate-in text-balance text-center font-display text-driftwood text-heard italic duration-240 fade-in"
+        >
+          {lines.heard}
         </span>
       )}
       <div className="absolute inset-x-0 bottom-11.5 flex flex-col items-center gap-4">

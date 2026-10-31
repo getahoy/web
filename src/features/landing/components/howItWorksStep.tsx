@@ -9,8 +9,8 @@ type HowItWorksStepProps = {
 
 export function HowItWorksStep(props: HowItWorksStepProps) {
   return (
-    <li className="grid items-center gap-10 lg:grid-cols-12 lg:gap-18">
-      <div className="flex max-w-step flex-col gap-4.5 lg:col-span-5">
+    <li className="grid items-center gap-6 lg:grid-cols-12 lg:gap-18">
+      <div className="flex max-w-step flex-col gap-3 lg:col-span-5">
         <span className="font-label text-driftwood text-micro">
           {props.number}
         </span>
@@ -21,7 +21,7 @@ export function HowItWorksStep(props: HowItWorksStepProps) {
       </div>
       <div
         aria-hidden="true"
-        className="flex min-h-70 select-none items-center justify-center sm:min-h-85 lg:col-span-7 lg:min-h-105"
+        className="flex select-none items-center justify-center lg:col-span-7"
       >
         {props.visual}
       </div>

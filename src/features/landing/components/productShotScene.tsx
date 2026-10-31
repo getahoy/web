@@ -1,17 +1,19 @@
-import type { ShotStage } from "../motion/shotTimeline";
-import { MacMailWindow } from "./macMailWindow";
+import type { ShotScene, ShotStage } from "../motion/shotTimeline";
 import { PhoneFrame } from "./phoneFrame";
 import { PhoneTalkScreen } from "./phoneTalkScreen";
+import { ShotBrowser } from "./shotBrowser";
 
-export function ProductShotScene({ stage }: { stage: ShotStage }) {
+type ProductShotSceneProps = { scene: ShotScene; stage: ShotStage };
+
+export function ProductShotScene({ scene, stage }: ProductShotSceneProps) {
   return (
     <div
       aria-hidden="true"
       className="pointer-events-none flex select-none flex-col items-center justify-center gap-9 lg:flex-row lg:gap-16"
     >
-      <MacMailWindow stage={stage} />
+      <ShotBrowser scene={scene} stage={stage} />
       <PhoneFrame>
-        <PhoneTalkScreen stage={stage} />
+        <PhoneTalkScreen scene={scene} stage={stage} />
       </PhoneFrame>
     </div>
   );

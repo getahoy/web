@@ -4,6 +4,9 @@ import { landingCopy } from "../copy/landingCopy";
 export function ListeningVisual() {
   return (
     <div className="flex flex-col items-center gap-17">
+      <span className="font-display text-driftwood text-heard italic">
+        {landingCopy["how.step1.heard"]}
+      </span>
       <div className="relative flex size-28 items-center justify-center">
         <span className="absolute size-58 rounded-full bg-signal-mist" />
         <span className="relative flex size-28 scale-106 items-center justify-center rounded-full bg-ink text-white">

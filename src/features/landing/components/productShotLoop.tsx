@@ -28,7 +28,10 @@ export function ProductShotLoop() {
 
   return (
     <div ref={sceneRef}>
-      <ProductShotScene stage={current?.stage ?? "done"} />
+      <ProductShotScene
+        scene={current?.scene ?? "pause"}
+        stage={current?.stage ?? "done"}
+      />
     </div>
   );
 }

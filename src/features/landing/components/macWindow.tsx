@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { TrafficLights } from "./trafficLights";
 
 type MacWindowProps = {
   title: string;
@@ -18,9 +19,7 @@ export function MacWindow(props: MacWindowProps) {
       )}
     >
       <div className="flex h-12 items-center gap-2 border-macos-hairline border-b bg-macos-chrome px-4">
-        <span className="size-2.75 shrink-0 rounded-full bg-macos-close" />
-        <span className="size-2.75 shrink-0 rounded-full bg-macos-minimize" />
-        <span className="size-2.75 shrink-0 rounded-full bg-macos-zoom" />
+        <TrafficLights />
         <span className="ml-3 font-medium text-micro">{props.title}</span>
         {props.detail ? (
           <span className="truncate text-caption text-macos-muted">

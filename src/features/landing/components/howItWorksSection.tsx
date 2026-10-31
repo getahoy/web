@@ -29,7 +29,7 @@ export function HowItWorksSection() {
   return (
     <section id="how" className="px-5 py-20 sm:px-8 sm:py-26 lg:px-12 lg:py-32">
       <h2 className="sr-only">{landingCopy["how.label"]}</h2>
-      <ol className="mx-auto flex max-w-page flex-col gap-24 sm:gap-32 lg:gap-44">
+      <ol className="mx-auto flex max-w-page flex-col gap-10 sm:gap-12 lg:gap-16">
         {steps.map((step) => (
           <HowItWorksStep key={step.number} {...step} />
         ))}
