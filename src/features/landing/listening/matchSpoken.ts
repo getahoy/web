@@ -9,7 +9,7 @@ type SceneRule = {
 const sceneRules: readonly SceneRule[] = [
   {
     scene: "draft",
-    words: ["gmail", "mail", "email", "jake", "samar"],
+    words: ["gmail", "mail", "email", "jake", "daniel"],
     joined: ["gmail", "email"],
   },
   { scene: "note", words: ["note", "notes"], joined: [] },
