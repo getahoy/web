@@ -12,7 +12,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "eval:interpret": "node --env-file=.env.local scripts/evalInterpret.ts",
-    "voice:landing": "node --env-file=.env.local scripts/buildLandingVoice.ts"
+    "voice:landing": "node --env-file=.env.local scripts/buildLandingVoice.ts",
+    "voice:samples": "node --env-file=.env.local scripts/buildVoiceSamples.ts"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.89",
