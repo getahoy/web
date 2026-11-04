@@ -20,6 +20,9 @@
 # production
 /build
 
+# voice script output
+/scripts/out/
+
 # misc
 .DS_Store
 *.pem

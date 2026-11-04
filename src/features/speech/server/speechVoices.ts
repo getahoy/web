@@ -6,11 +6,15 @@ export const SPEECH_MODEL_ID = "eleven_flash_v2_5";
 export const SPEECH_FORMAT = "mp3_22050_32";
 
 export const SPEECH_SETTINGS = { speed: 0.9 };
-const SENTENCE_PAUSE = '<break time="0.3s" />';
+export const SENTENCE_PAUSE_SECONDS = 0.3;
 const SENTENCE_END = /([.!?])\s+(?=\S)/g;
 
-export function pacedText(text: string): string {
-  return text.replace(SENTENCE_END, `$1 ${SENTENCE_PAUSE} `);
+export function pacedText(
+  text: string,
+  pauseSeconds = SENTENCE_PAUSE_SECONDS,
+): string {
+  if (pauseSeconds === 0) return text;
+  return text.replace(SENTENCE_END, `$1 <break time="${pauseSeconds}s" /> `);
 }
 
 export function voiceIdFor(
