@@ -11,13 +11,17 @@ import {
 import { serverEnv } from "@/env/serverEnv";
 import { logger } from "@/features/logging/server/logger";
 import { COMMAND_KEYTERMS } from "./commandKeyterms";
+import {
+  pacedText,
+  SPEECH_FORMAT,
+  SPEECH_MODEL_ID,
+  SPEECH_SETTINGS,
+  voiceIdFor,
+} from "./speechVoices";
 
 const MODEL_ID = "scribe_v2";
 const TIMEOUT_SECONDS = 10;
 const RETRIES = 1;
-// Flash is ElevenLabs' lowest-latency voice model; a small MP3 keeps the first bytes fast.
-const SPEECH_MODEL_ID = "eleven_flash_v2_5";
-const SPEECH_FORMAT = "mp3_22050_32";
 const SPEECH_TIMEOUT_SECONDS = 5;
 const NO_RETRIES = 0;
 
@@ -69,17 +73,11 @@ export async function transcribeAudio(audio: File): Promise<Transcription> {
   }
 }
 
-function voiceIdFor(voice: SpeakVoice): string | undefined {
-  return voice === "india"
-    ? serverEnv.ELEVENLABS_VOICE_INDIA
-    : serverEnv.ELEVENLABS_VOICE_DEFAULT;
-}
-
 export function configuredVoices(): SpeakVoices {
   return {
     voices: {
-      default: voiceIdFor("default") ?? null,
-      india: voiceIdFor("india") ?? null,
+      default: voiceIdFor(serverEnv, "default") ?? null,
+      india: voiceIdFor(serverEnv, "india") ?? null,
     },
   };
 }
@@ -88,12 +86,17 @@ export async function speakText(
   text: string,
   voice: SpeakVoice,
 ): Promise<SpokenAudio> {
-  const voiceId = voiceIdFor(voice);
+  const voiceId = voiceIdFor(serverEnv, voice);
   if (!voiceId) return { outcome: "noVoice" };
   try {
     const stream = await client().textToSpeech.stream(
       voiceId,
-      { text, modelId: SPEECH_MODEL_ID, outputFormat: SPEECH_FORMAT },
+      {
+        text: pacedText(text),
+        modelId: SPEECH_MODEL_ID,
+        outputFormat: SPEECH_FORMAT,
+        voiceSettings: SPEECH_SETTINGS,
+      },
       { timeoutInSeconds: SPEECH_TIMEOUT_SECONDS, maxRetries: NO_RETRIES },
     );
     return { outcome: "audio", stream };
