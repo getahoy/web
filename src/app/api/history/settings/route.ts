@@ -17,7 +17,7 @@ export const GET = apiRoute("history.settings", async (request) => {
   return SuccessResponse(settings);
 });
 
-export const PUT = apiRoute("history.settings", async (request) => {
+export const PATCH = apiRoute("history.settings", async (request) => {
   const access = await historyAccess(request.headers);
   if (access.outcome === "refused") return access.response;
   const parsed = await readJson(request, historySettingsSchema);
