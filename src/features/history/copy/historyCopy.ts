@@ -5,4 +5,5 @@ export const historyCopy = {
   "error.notFound": "That entry is no longer in your history.",
   "error.staleCursor": "Reload your history and try again.",
   "error.cronOnly": "Only the scheduled job can run this.",
+  "error.cronUnset": "The scheduled job is not set up yet.",
 } as const;
