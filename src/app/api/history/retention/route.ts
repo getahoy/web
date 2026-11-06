@@ -1,8 +1,8 @@
 import { ErrorResponse, SuccessResponse } from "@getahoy/lib";
 import { apiRoute } from "@/features/api/server/apiRoute";
 import { historyCopy } from "@/features/history/copy/historyCopy";
+import { cronAccess } from "@/features/history/server/cronAccess";
 import { HISTORY_CHANGED } from "@/features/history/server/historyChanged";
-import { cronAccess } from "@/features/history/server/isCronRequest";
 import { purgeExpiredHistory } from "@/features/history/server/purgeExpiredHistory";
 import { logger } from "@/features/logging/server/logger";
 

@@ -7,7 +7,7 @@ import { keepsHistory } from "./historySettingsStore";
 import { latestRevisions } from "./latestRevisions";
 import { ownedDeviceIds } from "./ownedDeviceIds";
 
-export type HistoryWriteOutcome =
+type HistoryWriteOutcome =
   | { outcome: "saved"; saved: number }
   | { outcome: "unknownDevice" };
 

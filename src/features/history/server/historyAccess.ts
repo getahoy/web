@@ -9,7 +9,7 @@ import { historyCopy } from "../copy/historyCopy";
 const HISTORY_WINDOW_MS = 60_000;
 const PER_USER: RateLimitRule = { windowMs: HISTORY_WINDOW_MS, max: 120 };
 
-export type HistoryAccess =
+type HistoryAccess =
   | { outcome: "allowed"; userId: string }
   | { outcome: "refused"; response: Response };
 
