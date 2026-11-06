@@ -16,6 +16,7 @@ const serverEnvSchema = z
     ELEVENLABS_VOICE_DEFAULT: optionalSecret,
     ELEVENLABS_VOICE_INDIA: optionalSecret,
     ANTHROPIC_API_KEY: z.string().min(1),
+    CRON_SECRET: z.string().min(32),
   })
   .refine(
     (env) =>
