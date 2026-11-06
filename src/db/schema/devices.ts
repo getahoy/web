@@ -2,27 +2,22 @@ import { END_REASONS, PLATFORMS } from "@getahoy/protocol";
 import { sql } from "drizzle-orm";
 import {
   check,
-  customType,
   index,
   integer,
   jsonb,
   pgTable,
   primaryKey,
   text,
-  timestamp,
   uniqueIndex,
   uuid,
 } from "drizzle-orm/pg-core";
+import { bytea, moment } from "../columnTypes";
 import { isOneOf } from "../isOneOf";
 import { user } from "./auth";
 
 const deviceKinds = ["desktop", "phone"] as const;
 const platforms = PLATFORMS;
 const endReasons = END_REASONS;
-
-const bytea = customType<{ data: Buffer }>({ dataType: () => "bytea" });
-
-const moment = (name: string) => timestamp(name, { withTimezone: true });
 
 export const devices = pgTable(
   "devices",
