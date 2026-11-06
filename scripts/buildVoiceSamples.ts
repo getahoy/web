@@ -1,7 +1,8 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 import { SPEAK_VOICES, type SpeakVoice } from "@getahoy/protocol";
+import { z } from "zod";
 import { serverEnv } from "../src/env/serverEnv.ts";
 import {
   pacedText,
@@ -14,6 +15,12 @@ import {
 
 const PREVIEW_LINE =
   "Hey there! Your Mac’s all set. So, what are we working on today?";
+
+// Must match mobile src/features/voice/promptClips.ts word for word, or the phone fetches its own.
+const PROMPTS = {
+  whichOne: "Which one? Say the number.",
+  confirm: "Tap the button on your phone to go ahead.",
+} as const;
 
 const OUTPUT_DIRECTORY = join("..", "mobile", "assets", "voice-samples");
 const CANDIDATE_DIRECTORY = join("scripts", "out", "voice-candidates");
@@ -32,16 +39,24 @@ const PACE_CANDIDATES: Record<string, Pace> = {
   c: { speed: 0.9, pauseSeconds: 0.3 },
 };
 
+type Clip = "sample" | keyof typeof PROMPTS;
+
 type SampleEntry = {
   voice: SpeakVoice;
+  clip: Clip;
   voiceId: string;
   text: string;
   generatedAt: string;
 };
 
-async function speak(client: ElevenLabsClient, voiceId: string, pace: Pace) {
+async function speak(
+  client: ElevenLabsClient,
+  voiceId: string,
+  pace: Pace,
+  line = PREVIEW_LINE,
+) {
   const stream = await client.textToSpeech.stream(voiceId, {
-    text: pacedText(PREVIEW_LINE, pace.pauseSeconds),
+    text: pacedText(line, pace.pauseSeconds),
     modelId: SPEECH_MODEL_ID,
     outputFormat: SPEECH_FORMAT,
     voiceSettings: { speed: pace.speed },
@@ -70,23 +85,60 @@ async function writeCandidates(client: ElevenLabsClient) {
   }
 }
 
-async function writeSamples(client: ElevenLabsClient) {
+const MANIFEST = join(OUTPUT_DIRECTORY, "manifest.json");
+
+const fileFor = (voice: SpeakVoice, clip: Clip) =>
+  clip === "sample" ? `${voice}.mp3` : `${voice}-${clip}.mp3`;
+
+async function record(
+  client: ElevenLabsClient,
+  clips: readonly [Clip, string][],
+): Promise<SampleEntry[]> {
   await mkdir(OUTPUT_DIRECTORY, { recursive: true });
   const entries: SampleEntry[] = [];
   for (const [voice, voiceId] of configuredVoiceIds()) {
-    const audio = await speak(client, voiceId, CURRENT_PACE);
-    await writeFile(join(OUTPUT_DIRECTORY, `${voice}.mp3`), audio);
-    const generatedAt = new Date().toISOString();
-    entries.push({ voice, voiceId, text: PREVIEW_LINE, generatedAt });
-    console.log(`${voice}.mp3  ${audio.byteLength} bytes`);
+    for (const [clip, text] of clips) {
+      const audio = await speak(client, voiceId, CURRENT_PACE, text);
+      await writeFile(join(OUTPUT_DIRECTORY, fileFor(voice, clip)), audio);
+      const generatedAt = new Date().toISOString();
+      entries.push({ voice, clip, voiceId, text, generatedAt });
+      console.log(`${fileFor(voice, clip)}  ${audio.byteLength} bytes`);
+    }
   }
+  return entries;
+}
+
+const storedSchema = z.array(
+  z.object({
+    voice: z.enum(SPEAK_VOICES),
+    clip: z.enum(["sample", "whichOne", "confirm"]).default("sample"),
+    voiceId: z.string(),
+    text: z.string(),
+    generatedAt: z.string(),
+  }),
+);
+
+async function keptEntries(dropped: readonly Clip[]): Promise<SampleEntry[]> {
+  const text = await readFile(MANIFEST, "utf8").catch(() => "[]");
+  const stored = storedSchema.parse(JSON.parse(text));
+  return stored.filter((entry) => !dropped.includes(entry.clip));
+}
+
+async function writeClips(client: ElevenLabsClient, clips: [Clip, string][]) {
+  const kept = await keptEntries(clips.map(([clip]) => clip));
+  const entries = [...kept, ...(await record(client, clips))];
   const manifest = `${JSON.stringify(entries, null, JSON_INDENT)}\n`;
-  await writeFile(join(OUTPUT_DIRECTORY, "manifest.json"), manifest);
+  await writeFile(MANIFEST, manifest);
 }
 
 const client = new ElevenLabsClient({ apiKey: serverEnv.ELEVENLABS_API_KEY });
 if (process.argv.includes("--candidates")) {
   await writeCandidates(client);
+} else if (process.argv.includes("--prompts")) {
+  await writeClips(client, [
+    ["whichOne", PROMPTS.whichOne],
+    ["confirm", PROMPTS.confirm],
+  ]);
 } else {
-  await writeSamples(client);
+  await writeClips(client, [["sample", PREVIEW_LINE]]);
 }
