@@ -5,7 +5,7 @@ export const DID_NOT_GO_THROUGH: readonly HistoryStatus[] = [
   "blocked",
 ];
 
-const WENT_THROUGH: readonly HistoryStatus[] = ["done", "choice"];
+export const WENT_THROUGH: readonly HistoryStatus[] = ["done", "choice"];
 
 export function statusesShownBy(
   filter: HistoryFilter,
