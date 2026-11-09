@@ -36,6 +36,7 @@ pnpm dev
 |---|---|
 | `pnpm dev` | Dev server on port 3000 |
 | `pnpm build` | Production build |
+| `pnpm start` | Serve the production build |
 | `pnpm lint` | Biome checks |
 | `pnpm typecheck` | Route types plus `tsc` |
 | `pnpm db:generate` | Migration from schema changes |
