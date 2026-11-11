@@ -38,6 +38,7 @@ pnpm dev
 | `pnpm build` | Production build |
 | `pnpm start` | Serve the production build |
 | `pnpm lint` | Biome checks |
+| `pnpm format` | Biome formatting |
 | `pnpm typecheck` | Route types plus `tsc` |
 | `pnpm db:generate` | Migration from schema changes |
 | `pnpm db:migrate` | Apply migrations |
