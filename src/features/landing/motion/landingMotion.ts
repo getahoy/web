@@ -1,7 +1,11 @@
+import { motionDurationMs, motionEasing } from "@getahoy/lib";
+
+const MS_PER_SECOND = 1000;
+
 export const NAV_PILL_AFTER_PX = 80;
 
-export const EASE_ENTER = [0.22, 1, 0.36, 1] as const;
-const REDUCED_FADE_SECONDS = 0.15;
+export const EASE_ENTER = motionEasing.out;
+const REDUCED_FADE_SECONDS = motionDurationMs.fast / MS_PER_SECOND;
 
 export const headlineMotion = {
   riseFromPx: 24,
