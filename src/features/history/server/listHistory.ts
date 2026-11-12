@@ -2,6 +2,7 @@ import {
   HISTORY_PAGE_SIZE,
   type HistoryPage,
   type HistoryQuery,
+  statusesShownBy,
 } from "@getahoy/protocol";
 import { and, desc, ilike, inArray, or, type SQL, sql } from "drizzle-orm";
 import { database } from "@/db/client";
@@ -10,7 +11,6 @@ import { containsPattern } from "./containsPattern";
 import { encodeHistoryCursor, type HistoryCursor } from "./historyCursor";
 import { historyEntryOf } from "./historyEntryOf";
 import { historyScope } from "./historyScope";
-import { statusesShownBy } from "./historyStatuses";
 import { historySummary } from "./historySummary";
 
 type ListInput = {

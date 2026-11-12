@@ -1,9 +1,12 @@
-import type { HistoryStatus } from "@getahoy/protocol";
+import {
+  DID_NOT_GO_THROUGH,
+  type HistoryStatus,
+  WENT_THROUGH,
+} from "@getahoy/protocol";
 import { and, count, gte, inArray, sql } from "drizzle-orm";
 import { database } from "@/db/client";
 import { commandHistory } from "@/db/schema";
 import { historyScope } from "./historyScope";
-import { DID_NOT_GO_THROUGH, WENT_THROUGH } from "./historyStatuses";
 import { summarySince } from "./historyWindows";
 
 type SummaryInput = { userId: string; macKey: string | undefined; now: Date };
