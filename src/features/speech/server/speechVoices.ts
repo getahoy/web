@@ -1,12 +1,15 @@
-import type { SpeakVoice } from "@getahoy/protocol";
+import {
+  SENTENCE_PAUSE_SECONDS,
+  SPEECH_SPEED,
+  type SpeakVoice,
+} from "@getahoy/protocol";
 import type { ServerEnv } from "@/env/serverEnv";
 
 // Flash is ElevenLabs' lowest-latency voice model; a small MP3 keeps the first bytes fast.
 export const SPEECH_MODEL_ID = "eleven_flash_v2_5";
 export const SPEECH_FORMAT = "mp3_22050_32";
 
-export const SPEECH_SETTINGS = { speed: 0.9 };
-export const SENTENCE_PAUSE_SECONDS = 0.3;
+export const SPEECH_SETTINGS = { speed: SPEECH_SPEED };
 const SENTENCE_END = /([.!?])\s+(?=\S)/g;
 
 export function pacedText(

@@ -1,26 +1,22 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
-import { SPEAK_VOICES, type SpeakVoice } from "@getahoy/protocol";
+import {
+  PROMPT_LINES,
+  SENTENCE_PAUSE_SECONDS,
+  SPEAK_VOICES,
+  SPEECH_SPEED,
+  type SpeakVoice,
+  VOICE_PREVIEW_LINE,
+} from "@getahoy/protocol";
 import { z } from "zod";
 import { serverEnv } from "../src/env/serverEnv.ts";
 import {
   pacedText,
-  SENTENCE_PAUSE_SECONDS,
   SPEECH_FORMAT,
   SPEECH_MODEL_ID,
-  SPEECH_SETTINGS,
   voiceIdFor,
 } from "../src/features/speech/server/speechVoices.ts";
-
-const PREVIEW_LINE =
-  "Hey there! Your Mac’s all set. So, what are we working on today?";
-
-// Must match mobile src/features/voice/promptClips.ts word for word, or the phone fetches its own.
-const PROMPTS = {
-  whichOne: "Which one? Say the number.",
-  confirm: "Tap the button on your phone to go ahead.",
-} as const;
 
 const OUTPUT_DIRECTORY = join("..", "mobile", "assets", "voice-samples");
 const CANDIDATE_DIRECTORY = join("scripts", "out", "voice-candidates");
@@ -29,7 +25,7 @@ const JSON_INDENT = 2;
 type Pace = { speed: number; pauseSeconds: number };
 
 const CURRENT_PACE: Pace = {
-  speed: SPEECH_SETTINGS.speed,
+  speed: SPEECH_SPEED,
   pauseSeconds: SENTENCE_PAUSE_SECONDS,
 };
 
@@ -39,7 +35,7 @@ const PACE_CANDIDATES: Record<string, Pace> = {
   c: { speed: 0.9, pauseSeconds: 0.3 },
 };
 
-type Clip = "sample" | keyof typeof PROMPTS;
+type Clip = "sample" | keyof typeof PROMPT_LINES;
 
 type SampleEntry = {
   voice: SpeakVoice;
@@ -53,7 +49,7 @@ async function speak(
   client: ElevenLabsClient,
   voiceId: string,
   pace: Pace,
-  line = PREVIEW_LINE,
+  line = VOICE_PREVIEW_LINE,
 ) {
   const stream = await client.textToSpeech.stream(voiceId, {
     text: pacedText(line, pace.pauseSeconds),
@@ -136,9 +132,9 @@ if (process.argv.includes("--candidates")) {
   await writeCandidates(client);
 } else if (process.argv.includes("--prompts")) {
   await writeClips(client, [
-    ["whichOne", PROMPTS.whichOne],
-    ["confirm", PROMPTS.confirm],
+    ["whichOne", PROMPT_LINES.whichOne],
+    ["confirm", PROMPT_LINES.confirm],
   ]);
 } else {
-  await writeClips(client, [["sample", PREVIEW_LINE]]);
+  await writeClips(client, [["sample", VOICE_PREVIEW_LINE]]);
 }
