@@ -180,7 +180,7 @@ importers:
         version: 2.74.0
       '@getahoy/lib':
         specifier: file:../shared/packages/lib
-        version: file:../shared/packages/lib(react@19.3.0)(zod@4.6.7)
+        version: file:../shared/packages/lib(@getahoy/protocol@file:../shared/packages/protocol(zod@4.6.7))(react@19.3.0)(zod@4.6.7)
       '@getahoy/protocol':
         specifier: file:../shared/packages/protocol
         version: file:../shared/packages/protocol(zod@4.6.7)
@@ -1084,6 +1084,7 @@ packages:
   '@getahoy/lib@file:../shared/packages/lib':
     resolution: {directory: ../shared/packages/lib, type: directory}
     peerDependencies:
+      '@getahoy/protocol': '*'
       react: ^19.0.0
       zod: ^4.0.0
 
@@ -3634,8 +3635,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.12': {}
 
-  '@getahoy/lib@file:../shared/packages/lib(react@19.3.0)(zod@4.6.7)':
+  '@getahoy/lib@file:../shared/packages/lib(@getahoy/protocol@file:../shared/packages/protocol(zod@4.6.7))(react@19.3.0)(zod@4.6.7)':
     dependencies:
+      '@getahoy/protocol': file:../shared/packages/protocol(zod@4.6.7)
       react: 19.3.0
       zod: 4.6.7
 

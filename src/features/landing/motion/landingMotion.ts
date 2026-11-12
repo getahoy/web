@@ -19,8 +19,3 @@ export function litWordCount(progress: number, totalWords: number): number {
 }
 
 export const DEMO_IN_VIEW_AMOUNT = 0.3;
-
-export const spinnerTiming = {
-  showAfterMs: 300,
-  minimumVisibleMs: 500,
-} as const;

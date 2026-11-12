@@ -1,3 +1,4 @@
+import { useSpinnerVisible } from "@getahoy/lib";
 import { type FormEvent, useRef, useState } from "react";
 import {
   type CapsuleNotice,
@@ -9,7 +10,6 @@ import {
   waitlistEmailSchema,
 } from "../forms/waitlistRequest";
 import { useJoinWaitlist } from "./useJoinWaitlist";
-import { useSpinnerVisible } from "./useSpinnerVisible";
 
 export function useWaitlistCapsule(source: WaitlistSource) {
   const { pending, join } = useJoinWaitlist();
