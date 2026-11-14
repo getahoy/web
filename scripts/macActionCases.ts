@@ -1,7 +1,6 @@
 import type {
   InterpretAction,
   ScrollAmount,
-  StepScale,
   WindowAction,
 } from "@getahoy/protocol";
 import { type EvalCase, NONE } from "./interpretCases.ts";
@@ -11,8 +10,9 @@ type LevelKind = "volume" | "brightness";
 
 const SMALLEST_VAGUE_STEP = 5;
 const LARGEST_VAGUE_STEP = 25;
+const USUAL_STEP = 10;
 
-const scroll = (
+export const scroll = (
   direction: Direction,
   amount: ScrollAmount = "page",
   times = 1,
@@ -23,42 +23,39 @@ const scrollTo = (direction: "top" | "bottom"): InterpretAction => ({
   amount: "page",
   times: 1,
 });
-const navigate = (to: "back" | "forward" | "reload"): InterpretAction => ({
-  kind: "navigate",
-  to,
-});
-const media = (action: "playPause" | "next" | "previous"): InterpretAction => ({
-  kind: "media",
-  action,
-});
-const level = (
+export const navigate = (
+  to: "back" | "forward" | "reload",
+): InterpretAction => ({ kind: "navigate", to });
+export const media = (
+  action: "playPause" | "next" | "previous",
+): InterpretAction => ({ kind: "media", action });
+export const level = (
   kind: LevelKind,
   action: Direction | "set",
   percent: number,
 ): InterpretAction => ({ kind, action, percent });
-const sound = (action: "mute" | "unmute"): InterpretAction => ({
+export const sound = (action: "mute" | "unmute"): InterpretAction => ({
   kind: "volume",
   action,
   percent: null,
 });
-const windowTo = (action: WindowAction): InterpretAction => ({
+export const windowTo = (action: WindowAction): InterpretAction => ({
   kind: "window",
   action,
 });
-const again = (amount: StepScale = "normal"): InterpretAction => ({
-  kind: "again",
-  amount,
-});
 const PAUSE = media("playPause");
 
-function anyStep(kind: LevelKind, action: Direction): InterpretAction[][] {
-  const count = LARGEST_VAGUE_STEP - SMALLEST_VAGUE_STEP + 1;
-  const steps = Array.from({ length: count }, (_, index) => [
-    level(kind, action, SMALLEST_VAGUE_STEP + index),
+export function anyStep(
+  kind: LevelKind,
+  action: Direction,
+  smallest = SMALLEST_VAGUE_STEP,
+  largest = LARGEST_VAGUE_STEP,
+): InterpretAction[][] {
+  const steps = Array.from({ length: largest - smallest + 1 }, (_, index) => [
+    level(kind, action, smallest + index),
   ]);
-  return kind === "volume"
-    ? [...steps, [{ kind, action, percent: null }]]
-    : steps;
+  const usual = smallest <= USUAL_STEP && USUAL_STEP <= largest;
+  return usual ? [...steps, [{ kind, action, percent: null }]] : steps;
 }
 
 export const MAC_ACTION_CASES: readonly EvalCase[] = [
@@ -115,8 +112,8 @@ export const MAC_ACTION_CASES: readonly EvalCase[] = [
     text: "move this window to the other screen",
     accept: [[windowTo("nextDisplay")]],
   },
-  { text: "lock my mac", accept: [[{ kind: "lock" }]] },
-  { text: "more", accept: [[again()]] },
-  { text: "a bit more", accept: [[again("small")]] },
+  { text: "lock my mac", accept: [NONE] },
+  { text: "more", accept: [NONE] },
+  { text: "a bit more", accept: [NONE] },
   { text: "put my mac to sleep", accept: [NONE] },
 ];

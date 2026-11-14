@@ -63,12 +63,10 @@ function describe(action: InterpretAction): string {
     case "window":
       return `${action.kind} ${action.action}`;
     case "volume":
-    case "brightness":
-      return `${action.kind} ${action.action} ${action.percent ?? ""}`;
-    case "lock":
-      return "lock";
-    case "again":
-      return `again ${action.amount}`;
+    case "brightness": {
+      const unused = action.action === "mute" || action.action === "unmute";
+      return `${action.kind} ${action.action} ${unused ? "" : action.percent}`;
+    }
     default: {
       const unhandled: never = action;
       return unhandled;
