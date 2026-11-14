@@ -48,6 +48,10 @@ export const click = (label: string): InterpretAction => ({
   kind: "click",
   label,
 });
+export const RELOAD: InterpretAction = { kind: "navigate", to: "reload" };
+const BACK: InterpretAction = { kind: "navigate", to: "back" };
+const MINIMIZE: InterpretAction = { kind: "window", action: "minimize" };
+const FULL_SCREEN: InterpretAction = { kind: "window", action: "fullScreen" };
 
 const RAMBLE =
   "so yesterday I was thinking about how the weather has been really strange lately, " +
@@ -107,12 +111,12 @@ export const EVAL_CASES: readonly EvalCase[] = [
   { text: "select everything", accept: [[keys("a")]] },
   { text: "copy this", accept: [[keys("c")]] },
   { text: "paste it", accept: [[keys("v")]] },
-  { text: "refresh the page", accept: [[keys("r")]] },
-  { text: "go back", accept: [[keys("[")], [keys("left")]] },
+  { text: "refresh the page", accept: [[RELOAD]] },
+  { text: "go back", accept: [[BACK]] },
   { text: "find on this page", accept: [[keys("f")]] },
   { text: "save this file", accept: [[keys("s")]] },
-  { text: "minimize this window", accept: [[keys("m")]] },
-  { text: "full screen", accept: [[keys("f", ["control", "mod"])]] },
+  { text: "minimize this window", accept: [[MINIMIZE]] },
+  { text: "full screen", accept: [[FULL_SCREEN]] },
   {
     text: "search in notion",
     accept: [[keys("p")], [switchTo("Notion"), keys("p")]],

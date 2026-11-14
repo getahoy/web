@@ -1,11 +1,13 @@
 import { request } from "@getahoy/lib";
 import {
+  INTERPRET_ACTION_KINDS,
   type InterpretAction,
   interpretResponseSchema,
 } from "@getahoy/protocol";
 import { z } from "zod";
 import { EVAL_APPS, EVAL_CASES, type EvalCase } from "./interpretCases.ts";
 import { HELD_OUT_CASES } from "./interpretHeldOut.ts";
+import { MAC_ACTION_CASES } from "./macActionCases.ts";
 
 const evalEnvSchema = z.object({
   EVAL_API_URL: z.url().default("http://localhost:3000"),
@@ -53,6 +55,20 @@ function describe(action: InterpretAction): string {
       return `${action.kind} ${action.match} in ${action.browser ?? "any"}`;
     case "draftEmail":
       return `draft to ${action.to ?? "nobody"} via ${action.via}${inBrowser(action.browser)}`;
+    case "scroll":
+      return `scroll ${action.direction} ${action.amount} x${action.times}`;
+    case "navigate":
+      return `navigate ${action.to}`;
+    case "media":
+    case "window":
+      return `${action.kind} ${action.action}`;
+    case "volume":
+    case "brightness":
+      return `${action.kind} ${action.action} ${action.percent ?? ""}`;
+    case "lock":
+      return "lock";
+    case "again":
+      return `again ${action.amount}`;
     default: {
       const unhandled: never = action;
       return unhandled;
@@ -106,7 +122,11 @@ async function runCase(
   const answer = await request({
     url: `${apiUrl}/api/interpret`,
     method: "POST",
-    body: { text: evalCase.text, apps: EVAL_APPS },
+    body: {
+      text: evalCase.text,
+      apps: EVAL_APPS,
+      supports: INTERPRET_ACTION_KINDS,
+    },
     headers: { authorization: `Bearer ${token}` },
     schema: interpretResponseSchema,
   });
@@ -152,6 +172,7 @@ async function main(): Promise<void> {
   const sets: CaseSet[] = [
     { name: "Tuning set", cases: EVAL_CASES },
     { name: "Held-out set", cases: HELD_OUT_CASES },
+    { name: "Mac actions", cases: MAC_ACTION_CASES },
   ];
   const totals: string[] = [];
   for (const set of sets) {
