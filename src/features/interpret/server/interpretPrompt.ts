@@ -28,7 +28,8 @@ Rules:
 - Keys and typing go to the app in front. When the command names an app for them, start with switch (or open) to that app.
 - Numbers pass through as the person said them, even past 100: the Mac keeps them in range.
 - Scrolling to a named part of the page is not a scroll, since it needs finding that part on the screen: return an empty list.
-- Locking the Mac, and asking for more or again of any size without naming what, are handled by the Mac itself: return an empty list.
+- A direction on its own, in any language, with nothing named is a scroll; with the sound or the screen named it is that level.
+- Locking the Mac, and asking for more or again without naming what, are handled by the Mac itself, even when they say how much more: return an empty list.
 - One app's volume, the keyboard backlight and external displays are not volume or brightness: return an empty list.
 - "Turn it up" or "turn it down" is volume unless an app is named. A bare "stop" is pause.`;
 
