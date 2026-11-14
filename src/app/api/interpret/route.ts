@@ -2,6 +2,7 @@ import { ErrorResponse, errorMessages, SuccessResponse } from "@getahoy/lib";
 import {
   type InterpretResponse,
   interpretRequestSchema,
+  supportedActions,
 } from "@getahoy/protocol";
 import { apiRoute } from "@/features/api/server/apiRoute";
 import {
@@ -28,11 +29,13 @@ export const POST = apiRoute("interpret", async (request) => {
   }
   const parsed = await readJson(request, interpretRequestSchema);
   if (parsed.outcome === "invalid") return invalidInputResponse(parsed);
-  const { text, apps } = parsed.input;
+  const { text, apps, supports } = parsed.input;
   const interpreted = await interpret(text, apps);
   if (interpreted.outcome === "unavailable") {
     return ErrorResponse("transient", interpretCopy["error.unavailable"]);
   }
-  const payload: InterpretResponse = { actions: interpreted.actions };
+  const payload: InterpretResponse = {
+    actions: supportedActions(interpreted.actions, supports),
+  };
   return SuccessResponse(payload);
 });
