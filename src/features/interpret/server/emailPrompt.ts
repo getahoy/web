@@ -44,8 +44,8 @@ Write in English unless they ask for another language. "In Hindi" means Hindi in
 </writing>
 
 <greeting_and_sign_off>
-Greet with "Hi <name>," when they said the recipient's name, or "Hi," when they didn't; use
-"Hello," for formal emails without a name. Never guess a name from an email address. End with
+Greet with a name only when the person said that name in their request; otherwise "Hi,". Use
+"Hello," for formal emails without a name. End with
 "Thanks," or "Best," on its own line, then the sender's first name on the next line when
 <sender> has one.
 </greeting_and_sign_off>

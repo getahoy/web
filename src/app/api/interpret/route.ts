@@ -12,6 +12,7 @@ import {
 import { invalidInputResponse, readJson } from "@/features/api/server/readJson";
 import { readSession } from "@/features/auth/server/readSession";
 import { interpretCopy } from "@/features/interpret/copy/interpretCopy";
+import { composeEmails } from "@/features/interpret/server/composeEmail";
 import { interpret } from "@/features/interpret/server/interpret";
 
 const PER_USER: RateLimitRule = { windowMs: 60_000, max: 30 };
@@ -30,12 +31,16 @@ export const POST = apiRoute("interpret", async (request) => {
   const parsed = await readJson(request, interpretRequestSchema);
   if (parsed.outcome === "invalid") return invalidInputResponse(parsed);
   const { text, apps, supports } = parsed.input;
+  const answerStartedAt = performance.now();
   const interpreted = await interpret(text, apps);
   if (interpreted.outcome === "unavailable") {
     return ErrorResponse("transient", interpretCopy["error.unavailable"]);
   }
+  const sender = session.user.name.trim().split(/\s+/)[0] ?? "";
+  const context = { text, sender, answerStartedAt };
+  const written = await composeEmails(interpreted.actions, context);
   const payload: InterpretResponse = {
-    actions: supportedActions(interpreted.actions, supports),
+    actions: supportedActions(written, supports),
   };
   return SuccessResponse(payload);
 });
