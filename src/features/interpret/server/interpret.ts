@@ -1,51 +1,21 @@
-import type { AnthropicLanguageModelOptions } from "@ai-sdk/anthropic";
 import {
   type InterpretAction,
   interpretResponseSchema,
 } from "@getahoy/protocol";
-import {
-  APICallError,
-  generateText,
-  NoObjectGeneratedError,
-  Output,
-  type SystemModelMessage,
-} from "ai";
+import { generateText, Output } from "ai";
 import { logger } from "@/features/logging/server/logger";
 import {
   INTERPRET_INSTRUCTIONS,
   installedAppsMessage,
 } from "./interpretPrompt";
+import { cachedSystem, failureKind, NO_RETRIES, quick } from "./modelCall";
 import { interpretModel } from "./models";
 
 const TIMEOUT_MS = 5000;
-const NO_RETRIES = 0;
-
-const cached = {
-  anthropic: { cacheControl: { type: "ephemeral" } },
-} satisfies { anthropic: AnthropicLanguageModelOptions };
-
-const quick = {
-  anthropic: { thinking: { type: "disabled" }, effort: "low" },
-} satisfies { anthropic: AnthropicLanguageModelOptions };
-
-function cachedSystem(content: string): SystemModelMessage {
-  return { role: "system", content, providerOptions: cached };
-}
 
 export type Interpretation =
   | { outcome: "actions"; actions: InterpretAction[] }
   | { outcome: "unavailable" };
-
-function failureKind(error: unknown): string | null {
-  if (APICallError.isInstance(error)) {
-    return `api error, status ${error.statusCode ?? "none"}`;
-  }
-  if (NoObjectGeneratedError.isInstance(error)) return "invalid output";
-  const timedOut =
-    error instanceof Error &&
-    (error.name === "TimeoutError" || error.name === "AbortError");
-  return timedOut ? "timeout" : null;
-}
 
 export async function interpret(
   text: string,
