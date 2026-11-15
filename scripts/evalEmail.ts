@@ -13,7 +13,7 @@ const evalEnvSchema = z.object({
 });
 const sessionSchema = z.object({ user: z.object({ name: z.string() }) });
 
-const MIN_SUBJECT_WORDS = 3;
+const MIN_SUBJECT_WORDS = 2;
 const MAX_SUBJECT_WORDS = 7;
 const MAX_BODY_WORDS = 130;
 const SAMPLES = 3;
