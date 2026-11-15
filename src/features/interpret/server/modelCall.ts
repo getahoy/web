@@ -7,8 +7,9 @@ import {
 
 export const NO_RETRIES = 0;
 
+// An hour outlasts a quiet spell, so the first command after a break is not a cold, slow call.
 const cached = {
-  anthropic: { cacheControl: { type: "ephemeral" } },
+  anthropic: { cacheControl: { type: "ephemeral", ttl: "1h" } },
 } satisfies { anthropic: AnthropicLanguageModelOptions };
 
 export const quick = {
