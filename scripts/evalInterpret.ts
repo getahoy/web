@@ -5,6 +5,7 @@ import {
   interpretResponseSchema,
 } from "@getahoy/protocol";
 import { z } from "zod";
+import { ADDRESS_CASES } from "./addressCases.ts";
 import { EVAL_APPS, EVAL_CASES, type EvalCase } from "./interpretCases.ts";
 import { HELD_OUT_CASES } from "./interpretHeldOut.ts";
 import { MAC_ACTION_CASES } from "./macActionCases.ts";
@@ -171,6 +172,7 @@ async function main(): Promise<void> {
     { name: "Tuning set", cases: EVAL_CASES },
     { name: "Held-out set", cases: HELD_OUT_CASES },
     { name: "Mac actions", cases: MAC_ACTION_CASES },
+    { name: "Addresses", cases: ADDRESS_CASES },
   ];
   const totals: string[] = [];
   for (const set of sets) {
