@@ -11,7 +11,12 @@ export const MODELS = ["anthropic:claude-haiku-5-5"] as const;
 export type ModelId = (typeof MODELS)[number];
 
 export const DEFAULT_MODEL: ModelId = "anthropic:claude-haiku-5-5";
+export const EMAIL_MODEL: ModelId = "anthropic:claude-haiku-5-5";
 
 export function interpretModel() {
   return registry.languageModel(DEFAULT_MODEL);
+}
+
+export function emailModel() {
+  return registry.languageModel(EMAIL_MODEL);
 }
