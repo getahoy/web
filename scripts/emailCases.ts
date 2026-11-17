@@ -7,7 +7,7 @@ export type EmailCase = {
 export const EMAIL_CASES: readonly EmailCase[] = [
   {
     text: "email team at example dot com about the offsite moving to friday",
-    named: null,
+    named: "unchecked",
   },
   {
     text: "email p sharma at example dot com tell priya the deck is ready for review",
