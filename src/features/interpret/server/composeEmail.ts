@@ -8,12 +8,14 @@ import { z } from "zod";
 import { logger } from "@/features/logging/server/logger";
 import { EMAIL_INSTRUCTIONS } from "./emailPrompt";
 import { cachedSystem, failureKind, NO_RETRIES, quick } from "./modelCall";
-import { emailModel } from "./models";
+import { languageModel } from "./models";
 import { withSpokenGreeting } from "./spokenGreeting";
 
 const TIMEOUT_MS = 4000;
-// The Mac stops waiting for the whole answer after 7 s, so the email step only gets what is left.
-const ANSWER_BUDGET_MS = 6500;
+// The Mac stops waiting for the whole answer after 12 s, so the email step only gets what is left.
+const ANSWER_BUDGET_MS = 11_000;
+// Writing an email takes about two seconds; with less left, the placeholder draft opens instead.
+const MIN_EMAIL_MS = 2500;
 
 const emailSchema = z.object({
   subject: z.string().min(1).max(MAX_EMAIL_SUBJECT_CHARS),
@@ -38,13 +40,15 @@ async function composeEmail(
   context: EmailContext,
 ): Promise<Draft> {
   const startedAt = performance.now();
-  const timeout = Math.min(
-    TIMEOUT_MS,
-    ANSWER_BUDGET_MS - elapsed(context.answerStartedAt),
-  );
+  const left = ANSWER_BUDGET_MS - elapsed(context.answerStartedAt);
+  if (left < MIN_EMAIL_MS) {
+    logger.warn("email", `skipped: ${left} ms left`);
+    return draft;
+  }
+  const timeout = Math.min(TIMEOUT_MS, left);
   try {
     const response = await generateText({
-      model: emailModel(),
+      model: languageModel(),
       output: Output.object({ schema: emailSchema }),
       timeout,
       maxRetries: NO_RETRIES,

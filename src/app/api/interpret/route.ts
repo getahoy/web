@@ -20,6 +20,7 @@ const PER_USER: RateLimitRule = { windowMs: 60_000, max: 30 };
 export const maxDuration = 15;
 
 export const POST = apiRoute("interpret", async (request) => {
+  const answerStartedAt = performance.now();
   const session = await readSession(request.headers);
   if (!session) {
     return ErrorResponse("unauthorized", interpretCopy["error.signIn"]);
@@ -30,9 +31,8 @@ export const POST = apiRoute("interpret", async (request) => {
   }
   const parsed = await readJson(request, interpretRequestSchema);
   if (parsed.outcome === "invalid") return invalidInputResponse(parsed);
-  const { text, apps, supports } = parsed.input;
-  const answerStartedAt = performance.now();
-  const interpreted = await interpret(text, apps);
+  const { text, apps, supports, screen = [] } = parsed.input;
+  const interpreted = await interpret(text, apps, screen);
   if (interpreted.outcome === "unavailable") {
     return ErrorResponse("transient", interpretCopy["error.unavailable"]);
   }

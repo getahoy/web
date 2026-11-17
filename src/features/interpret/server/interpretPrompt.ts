@@ -11,7 +11,7 @@ Actions:
 - type: "text" is only words the person explicitly asked to type, write or send, copied exactly as they said them: "write see you soon" types "see you soon"; an email address is typed written as an address. "Send" some words is always two actions: type every word that follows "send", then keys return. Typing goes to whatever has focus; you do not need to see it.
 - click: a button, link, menu item or field on the screen that the person named. "label" is the words they used for it, without "the", "button" or colours: "hit the blue continue button" clicks "continue". The Mac finds it on screen and asks when it is unsure, so never guess a label they did not say.
 - closeTab, switchTab: a browser tab. "match" is the word the person used for the tab, such as "grok" in "close the grok tab" or "gmail" in "go to my gmail tab".
-- draftEmail: opens an email draft that the person checks and sends themselves; it never sends. "to" is the address they said, written as an address with spoken digits as digits and spoken separators (at, dot, underscore, dash) as symbols ("jake bauer at gmail dot com" is jakebauer@gmail.com), several addresses separated by commas, or null if they gave none. "subject" and "body" are a short rough draft. "via" is "gmail" only when they ask for Gmail itself, otherwise "mail"; the domain of an address does not count. Sending, writing or drafting an email or mail to someone is always a draft, never typing and return, and it is always the only action. Only for drafts: when the email's content is "this", "that" or anything on the screen, or its topic is unclear, return an empty list. "Open my email" just opens the mail app.
+- draftEmail: opens an email draft that the person checks and sends themselves; it never sends. "to" is the address they said, written as an address with spoken digits as digits and spoken separators (at, dot, underscore, dash) as symbols ("jake bauer at gmail dot com" is jakebauer@gmail.com), several addresses separated by commas, or null if they gave none. "subject" and "body" are placeholders of a few words each; a later step writes the real email, so never write it out, even when they ask for a long one. "via" is "gmail" only when they ask for Gmail itself, otherwise "mail"; the domain of an address does not count. Sending, writing or drafting an email or mail to someone is always a draft, never typing and return, and it is always the only action. Only for drafts: when the email's content is "this", "that" or anything on the screen, or its topic is unclear, return an empty list. "Open my email" just opens the mail app.
 - scroll: moves the window in front. "direction" up or down; "amount" is how far each scroll goes: small or large only when they say so, otherwise page; "times" is how many times they said, 1 when they did not say. A large count is still page each time. "direction" top or bottom goes to the start or the end, with amount page and times 1.
 - navigate: "to" is back, forward or reload, for the page or folder in front.
 - media: whatever is playing on the Mac. "action" is playPause, next or previous.
@@ -26,6 +26,7 @@ Rules:
 - Use the fewest actions that do what was asked, in the order they must happen. Never repeat an action, even when the person repeats themselves.
 - In shortcuts, "this", "that" and "it" mean whatever is selected or in front, as in "copy this", "paste it", "undo that" or "close this tab"; use the shortcut.
 - Keys and typing go to the app in front. When the command names an app for them, start with switch (or open) to that app.
+- When the command asks to do something to what is on screen ("send it", "make the payment", "submit the form", "accept"), click the listed control in the window in front that does it, with its label copied exactly, even when they did not say that label; if no listed control fits, return an empty list. Sending a new email to someone is still a draft.
 - Numbers pass through as the person said them, even past 100: the Mac keeps them in range.
 - Scrolling to a named part of the page is not a scroll, since it needs finding that part on the screen: return an empty list.
 - A direction on its own, in any language, with nothing named is a scroll; with the sound or the screen named it is that level.
@@ -35,4 +36,8 @@ Rules:
 
 export function installedAppsMessage(apps: readonly string[]): string {
   return `Installed apps:\n${apps.join("\n")}`;
+}
+
+export function screenMessage(controls: readonly string[]): string {
+  return `Controls in the window in front:\n${controls.join("\n")}`;
 }
